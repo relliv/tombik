@@ -4,22 +4,13 @@
   "auto_kill": true,
   "terminals": [
     {
-      "name": "Free Terminal",
-      "description": "Free terminal",
+      "name": "Dev Terminal",
+      "description": "Dev terminal",
       "focus": false,
       "execute": true,
       "recycle": true,
-      "color": "terminal.ansiBlue"
-    },
-
-    {
-      "name": "Angular Server",
-      "description": "Running angular server",
-      "focus": true,
-      "execute": true,
-      "recycle": true,
-      "commands": ["ng serve --open --host 0.0.0.0 --port 4200"],
-      "color": "terminal.ansiRed"
+      "color": "terminal.ansiBlue",
+      "command": "npm run dev"
     }
   ]
 }
