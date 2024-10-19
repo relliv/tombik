@@ -65,7 +65,9 @@ export const useTimerStore = defineStore("timer", () => {
         sound.pause();
         sound.currentTime = 0;
 
-        finishReason.value = IFinishReason.FINISHED;
+        setTimeout(() => {
+          finishReason.value = IFinishReason.FINISHED;
+        }, 1000);
       }
     }, 1000);
   };
