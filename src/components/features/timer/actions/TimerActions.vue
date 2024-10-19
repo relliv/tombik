@@ -8,18 +8,21 @@
           <TooltipTrigger as-child>
             <Button @click="onStartPauseClick">
               <!-- Pause -->
-              <IconPlayerPauseFilled v-if="isTimerRunning" />
+              <IconPlayerPauseFilled v-if="timerStore.isTimerRunning" />
 
               <!-- Play -->
               <IconPlayerPlayFilled
-                v-if="isTimerPaused || (!isTimerRunning && !isTimerPaused)"
+                v-if="
+                  timerStore.isTimerPaused ||
+                  (!timerStore.isTimerRunning && !timerStore.isTimerPaused)
+                "
               />
             </Button>
           </TooltipTrigger>
 
           <TooltipContent>
             <p>
-              {{ isTimerRunning ? "Pause" : "Start" }}
+              {{ timerStore.isTimerRunning ? "Pause" : "Start" }}
             </p>
           </TooltipContent>
         </Tooltip>
@@ -33,12 +36,12 @@
       <div
         class="action"
         :class="{
-          disabled: isFinished,
+          disabled: timerStore.isFinished,
         }"
       >
         <Tooltip>
           <TooltipTrigger as-child>
-            <Button @click="onTimerStopClick" :disabled="isFinished">
+            <Button @click="onTimerStopClick" :disabled="timerStore.isFinished">
               <IconPlayerStopFilled />
             </Button>
           </TooltipTrigger>
@@ -67,7 +70,6 @@ import {
   IconPlayerPauseFilled,
   IconPlayerStopFilled,
 } from "@tabler/icons-vue";
-
 import { Button } from "/src/components/ui/button";
 import {
   Tooltip,
@@ -75,6 +77,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "/src/components/ui/tooltip";
+import { useTimerStore } from "/src/shared/stores/timer.store";
+
+const timerStore = useTimerStore();
 
 const props = defineProps({
   isTimerRunning: Boolean,

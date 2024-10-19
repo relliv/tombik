@@ -1,10 +1,12 @@
-<script setup lang="ts">
-import CircularTimer from "./components/timer/CircularTimer.vue";
-</script>
-
 <template>
   <router-view />
 </template>
 
-<style>
-</style>
+<script setup lang="ts">
+import "./styles/style.scss";
+import { useTimerStore } from "/src/shared/stores/timer.store";
+
+const timerStore = useTimerStore();
+
+timerStore.setupTimer();
+</script>

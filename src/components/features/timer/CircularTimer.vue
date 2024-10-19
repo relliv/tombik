@@ -1,24 +1,54 @@
+<template>
+  <div class="timer-container">
+    <!-- Timer -->
+    <div class="circular-timer-container">
+      <ve-progress
+        :progress="timerStore.progress"
+        :angle="-90"
+        color="#7012CE"
+        empty-color="#1B143F"
+        :size="300"
+        :thickness="25"
+        empty-thickness="25"
+        empty-line-position="in"
+        :hide-legend="true"
+        legend-class="timer-legend-style"
+        :noData="false"
+        font-color="white"
+      >
+      </ve-progress>
+
+      <TimerDisplay
+        :minutes="timerStore.minutes"
+        :seconds="timerStore.seconds"
+        :isTimerRunning="timerStore.isTimerRunning"
+        :isTimerPaused="timerStore.isTimerPaused"
+        ref="timerDisplayRef"
+        @onTimerInputKeyDown="onTimerInputKeyDown($event)"
+        @onTimerInputBlur="onTimerInputBlur($event)"
+      />
+    </div>
+
+    <!-- Actions -->
+    <TimerActions
+      :isTimerRunning="timerStore.isTimerRunning"
+      :isTimerPaused="timerStore.isTimerPaused"
+      :isFinished="timerStore.isFinished"
+      @onStartPauseClick="onStartPauseClick"
+      @onTimerStopClick="onTimerStopClick"
+    />
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import {
-  progress,
-  currentTime,
-  minutes,
-  seconds,
-  isTimerRunning,
-  isTimerPaused,
-  isFinished,
-  initialTime,
-  increment,
-  timer,
-  stopTimer,
-  handleStartPause,
-} from "/src/shared/utils/timer/timer.util";
+import { useTimerStore } from "/src/shared/stores/timer.store";
 import TimerDisplay from "./display/TimerDisplay.vue";
 import TimerActions from "./actions/TimerActions.vue";
 import { ITimerInputEvent } from "../../shared/models/timer/timer";
 
 const timerDisplayRef: any = ref(null);
+const timerStore = useTimerStore();
 
 // #region Timer Input Events
 
@@ -29,18 +59,18 @@ const onTimerInputBlur = (_event: ITimerInputEvent): void => {
 
   // ensure value is exactly two characters, pad with zeroes if needed
   if (_event.timePart === "minutes") {
-    minutes.value = value.padStart(2, "0").substring(0, 2);
+    timerStore.minutes = value.padStart(2, "0").substring(0, 2);
   } else if (_event.timePart === "seconds") {
-    seconds.value = value.padStart(2, "0").substring(0, 2);
+    timerStore.seconds = value.padStart(2, "0").substring(0, 2);
   }
 
   handleTimerLegendUpdate();
   handleTimerProgress();
 
-  const totalSeconds = currentTime.value;
-  increment.value = 100 / totalSeconds;
+  const totalSeconds = timerStore.currentTime;
+  timerStore.increment = 100 / totalSeconds;
 
-  progress.value = 0;
+  timerStore.progress = 0;
 };
 
 const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
@@ -65,14 +95,14 @@ const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
 
     // ensure value is exactly two characters, pad with zeroes if needed
     if (_event.timePart === "minutes") {
-      minutes.value = value.padStart(2, "0").substring(0, 2);
+      timerStore.minutes = value.padStart(2, "0").substring(0, 2);
     } else if (_event.timePart === "seconds") {
-      seconds.value = value.padStart(2, "0").substring(0, 2);
+      timerStore.seconds = value.padStart(2, "0").substring(0, 2);
     }
 
     (_event.event.target as HTMLElement).blur();
 
-    handleStartPause();
+    timerStore.handleStartPause();
 
     return;
   }
@@ -89,9 +119,9 @@ const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
     const newValue = value.substring(1) + _event.event.key;
 
     if (_event.timePart === "minutes") {
-      minutes.value = newValue;
+      timerStore.minutes = newValue;
     } else if (_event.timePart === "seconds") {
-      seconds.value = newValue;
+      timerStore.seconds = newValue;
     }
 
     _event.event.preventDefault();
@@ -103,11 +133,11 @@ const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
 // #region Actions
 
 const onStartPauseClick = () => {
-  handleStartPause();
+  timerStore.handleStartPause();
 };
 
 const onTimerStopClick = () => {
-  stopTimer();
+  timerStore.stopTimer();
 };
 
 // #endregion
@@ -116,7 +146,7 @@ const onTimerStopClick = () => {
 
 const handleGlobalKeydownEventHandler = (event: KeyboardEvent) => {
   if (event.key == " " || event.code == "Space" || event.keyCode == 32) {
-    handleStartPause();
+    timerStore.handleStartPause();
   }
 };
 
@@ -125,26 +155,26 @@ const handleGlobalKeydownEventHandler = (event: KeyboardEvent) => {
 // #region Helpers
 
 const handleTimerProgress = () => {
-  progress.value = Math.min(
-    (initialTime.value - currentTime.value) * increment.value,
+  timerStore.progress = Math.min(
+    (timerStore.initialTime - timerStore.currentTime) * timerStore.increment,
     100
   );
 
-  console.log("initialTime.value", initialTime.value);
-  console.log("currentTime.value", currentTime.value);
-  console.log("increment", increment);
-  console.log("progress", progress.value);
+  console.log("initialTime.value", timerStore.initialTime);
+  console.log("currentTime.value", timerStore.currentTime);
+  console.log("increment", timerStore.increment);
+  console.log("progress", timerStore.progress);
 
-  formatTime(currentTime.value);
+  formatTime(timerStore.currentTime);
 };
 
 const handleTimerLegendUpdate = () => {
-  const newTime = parseTimeInput(`${minutes.value}:${seconds.value}`);
+  const newTime = parseTimeInput(`${timerStore.minutes}:${timerStore.seconds}`);
 
   console.log("handleTimerLegendUpdate", newTime);
 
-  currentTime.value = newTime;
-  initialTime.value = newTime;
+  timerStore.currentTime = newTime;
+  timerStore.initialTime = newTime;
 };
 
 const parseTimeInput = (timeString: string) => {
@@ -155,75 +185,30 @@ const parseTimeInput = (timeString: string) => {
 
 const formatTime = (totalSeconds: number) => {
   if (totalSeconds <= 0) {
-    minutes.value = "00";
-    seconds.value = "00";
+    timerStore.minutes = "00";
+    timerStore.seconds = "00";
 
-    isFinished.value = true;
+    timerStore.isFinished = true;
   }
 
   const minutesPart = Math.floor(totalSeconds / 60),
     secondsPart = totalSeconds % 60;
 
-  minutes.value = String(minutesPart).padStart(2, "0");
-  seconds.value = String(secondsPart).padStart(2, "0");
+  timerStore.minutes = String(minutesPart).padStart(2, "0");
+  timerStore.seconds = String(secondsPart).padStart(2, "0");
 };
 
 // #endregion
 
 onMounted(() => {
-  currentTime.value = initialTime.value;
-
   document.addEventListener("keydown", handleGlobalKeydownEventHandler);
 });
 
 onUnmounted(() => {
-  clearInterval(timer);
-
   document.removeEventListener("keydown", handleGlobalKeydownEventHandler);
 });
 </script>
 
-<template>
-  <div class="timer-container">
-    <!-- Timer -->
-    <div class="circular-timer-container">
-      <ve-progress
-        :progress="progress"
-        :angle="-90"
-        color="#7012CE"
-        empty-color="#1B143F"
-        :size="300"
-        :thickness="25"
-        empty-thickness="25"
-        empty-line-position="in"
-        :hide-legend="true"
-        legend-class="timer-legend-style"
-        :noData="false"
-        font-color="white"
-      >
-      </ve-progress>
-
-      <TimerDisplay
-        :minutes="minutes"
-        :seconds="seconds"
-        :isTimerRunning="isTimerRunning"
-        :isTimerPaused="isTimerPaused"
-        ref="timerDisplayRef"
-        @onTimerInputKeyDown="onTimerInputKeyDown($event)"
-        @onTimerInputBlur="onTimerInputBlur($event)"
-      />
-    </div>
-
-    <!-- Actions -->
-    <TimerActions
-      :isTimerRunning="isTimerRunning"
-      :isTimerPaused="isTimerPaused"
-      :isFinished="isFinished"
-      @onStartPauseClick="onStartPauseClick"
-      @onTimerStopClick="onTimerStopClick"
-    />
-  </div>
-</template>
 
 <style scoped>
 @import "./timer.scss";

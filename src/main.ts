@@ -1,9 +1,9 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
+
 import App from "./App.vue";
 import veProgress from "vue-ellipse-progress";
-import router from "./routes/app.routes"; // Adjust the path as necessary
-
-import "./styles/style.scss";
+import router from "./routes/app.routes";
 
 import "./demos/ipc";
 // If you want use Node.js, the`nodeIntegration` needs to be enabled in the Main process.
@@ -12,6 +12,7 @@ import "./demos/ipc";
 const app = createApp(App);
 
 app.use(router);
+app.use(createPinia());
 app.use(veProgress);
 
 app.mount("#app").$nextTick(() => {
