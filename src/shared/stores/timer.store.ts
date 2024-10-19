@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { IFinishReason } from "../models/timer/timer";
 
 export const useTimerStore = defineStore("timer", () => {
   // State
@@ -12,6 +13,7 @@ export const useTimerStore = defineStore("timer", () => {
   const isFinished = ref(false);
   const initialTime = ref(600);
   const increment = ref(0);
+  const finishReason = ref("");
 
   let timer: any = null;
 
@@ -33,12 +35,14 @@ export const useTimerStore = defineStore("timer", () => {
     } else if (currentTime.value === 0) {
       minutes.value = "00";
       seconds.value = "00";
+
       return;
     }
 
     isTimerRunning.value = true;
     isTimerPaused.value = false;
     isFinished.value = false;
+    finishReason.value = "";
 
     if (currentTime.value === initialTime.value) {
       const totalSeconds = currentTime.value;
@@ -60,6 +64,8 @@ export const useTimerStore = defineStore("timer", () => {
         isFinished.value = true;
         sound.pause();
         sound.currentTime = 0;
+
+        finishReason.value = IFinishReason.FINISHED;
       }
     }, 1000);
   };
@@ -83,6 +89,7 @@ export const useTimerStore = defineStore("timer", () => {
     sound.currentTime = 0;
 
     formatTime(initialTime.value);
+    finishReason.value = IFinishReason.STOPPED;
   };
 
   const handleStartPause = () => {
@@ -138,6 +145,7 @@ export const useTimerStore = defineStore("timer", () => {
     initialTime,
     increment,
     timer,
+    finishReason,
 
     // actions
     setupTimer,

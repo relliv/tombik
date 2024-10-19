@@ -25,28 +25,47 @@
           <li>currentTime:{{ timerStore.currentTime }}</li>
           <li>progress:{{ timerStore.progress.toFixed(1) }}</li>
           <li>increment:{{ timerStore.increment.toFixed(1) }}</li>
+          <li>finishReason:{{ timerStore.finishReason }}</li>
         </ul>
       </div>
     </FloatingContainer>
 
     <router-view />
+
+    <Toaster />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import "./styles/style.scss";
+import { ref, watch } from "vue";
 import FloatingContainer from "/src/components/ui/floating-container/FloatingContainer.vue";
-
 import { useTimerStore } from "/src/shared/stores/timer.store";
+import Toaster from "/src/components/ui/toast/Toaster.vue";
+import { useToast } from "/src/components/ui/toast/use-toast";
+
+import "./styles/style.scss";
+import { IFinishReason } from "./shared/models/timer/timer";
 
 const timerStore = useTimerStore();
+const { toast } = useToast();
 
 const { innerWidth, innerHeight } = window;
 const isDebuggerBubbleVisible = ref(true);
 
 timerStore.setupTimer();
 
-const containerWidth = 200; // Tahmini genişlik (px cinsinden)
-const containerHeight = 100; // Tahmini yükseklik (px cinsinden)
+const containerWidth = 200;
+const containerHeight = 100;
+
+watch(
+  () => timerStore.finishReason,
+  (newValue: IFinishReason) => {
+    if (newValue === IFinishReason.FINISHED) {
+      toast({
+        title: "Sprint completed!",
+        description: "Well done!",
+      });
+    }
+  }
+);
 </script>
