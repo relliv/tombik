@@ -15,6 +15,15 @@ export const useTimerStore = defineStore("timer", () => {
 
   let timer: any = null;
 
+  /**
+   * @source https://freesound.org/people/EagleStealthTeam/sounds/209698/
+   */
+  const sound = new Audio(
+    "/assets/media/sounds/timer/209698__eaglestealthteam__analog-timer.mp3"
+  );
+
+  const warningTime = 16;
+
   // Actions
   const startTimer = () => {
     clearInterval(timer);
@@ -39,10 +48,16 @@ export const useTimerStore = defineStore("timer", () => {
 
       handleTimerProgress();
 
+      if (currentTime.value === warningTime) {
+        sound.play();
+      }
+
       if (currentTime.value <= 0) {
         clearInterval(timer);
         isTimerRunning.value = false;
         isFinished.value = true;
+        sound.pause();
+        sound.currentTime = 0;
       }
     }, 1000);
   };
@@ -51,6 +66,7 @@ export const useTimerStore = defineStore("timer", () => {
     clearInterval(timer);
     isTimerPaused.value = true;
     isTimerRunning.value = false;
+    sound.pause();
   };
 
   const stopTimer = () => {
@@ -60,6 +76,8 @@ export const useTimerStore = defineStore("timer", () => {
     progress.value = 0;
     currentTime.value = -1;
     isFinished.value = true;
+    sound.pause(); // Stop and reset the sound when the timer is stopped
+    sound.currentTime = 0;
     formatTime(initialTime.value);
   };
 
@@ -67,6 +85,7 @@ export const useTimerStore = defineStore("timer", () => {
     if (isTimerRunning.value) {
       pauseTimer();
     } else if (isTimerPaused.value) {
+      sound.play();
       startTimer();
     } else {
       startTimer();
