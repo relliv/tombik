@@ -85,7 +85,6 @@ export const useTimerStore = defineStore("timer", () => {
     if (isTimerRunning.value) {
       pauseTimer();
     } else if (isTimerPaused.value) {
-      sound.play();
       startTimer();
     } else {
       startTimer();

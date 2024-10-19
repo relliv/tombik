@@ -8,7 +8,7 @@
         ref="minutesRef"
         class="minutes"
         placeholder="00"
-        :contenteditable="!isTimerRunning && isFinished"
+        :contenteditable="!isTimerRunning && !isTimerPaused"
         @keydown="onTimerInputKeyDown($event, 'minutes')"
         @blur="onTimerInputBlur($event, 'minutes')"
       >
@@ -25,7 +25,7 @@
         ref="secondsRef"
         class="seconds"
         placeholder="00"
-        :contenteditable="!isTimerRunning && isFinished"
+        :contenteditable="!isTimerRunning && !isTimerPaused"
         @keydown="onTimerInputKeyDown($event, 'seconds')"
         @blur="onTimerInputBlur($event, 'seconds')"
       >
