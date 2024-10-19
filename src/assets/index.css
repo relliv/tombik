@@ -1,26 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-}
-
-html,
-body {
-  @apply text-white;
-
-  background-color: #070417;
-  height: 100%;
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-}
-
-#app {
-  @apply h-full;
-}
-
+ 
 @layer base {
   :root {
     --background: 0 0% 100%;

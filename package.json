@@ -41,6 +41,12 @@
   },
   "dependencies": {
     "@tabler/icons-vue": "^3.19.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-vue-next": "^0.453.0",
+    "radix-vue": "^1.9.7",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
     "vue-ellipse-progress": "^2.2.0",
     "vue-router": "^4.4.5"
   }
