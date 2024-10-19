@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@tabler/icons-vue": "^3.19.0",
-    "vue-ellipse-progress": "^2.2.0"
+    "vue-ellipse-progress": "^2.2.0",
+    "vue-router": "^4.4.5"
   }
 }
