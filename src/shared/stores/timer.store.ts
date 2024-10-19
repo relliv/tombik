@@ -22,7 +22,7 @@ export const useTimerStore = defineStore("timer", () => {
     "/assets/media/sounds/timer/209698__eaglestealthteam__analog-timer.mp3"
   );
 
-  const warningTime = 16;
+  const warningTime = 15;
 
   // Actions
   const startTimer = () => {
@@ -40,8 +40,10 @@ export const useTimerStore = defineStore("timer", () => {
     isTimerPaused.value = false;
     isFinished.value = false;
 
-    const totalSeconds = currentTime.value;
-    increment.value = 100 / totalSeconds;
+    if (currentTime.value === initialTime.value) {
+      const totalSeconds = currentTime.value;
+      increment.value = 100 / totalSeconds;
+    }
 
     timer = setInterval(() => {
       currentTime.value--;
@@ -76,8 +78,10 @@ export const useTimerStore = defineStore("timer", () => {
     progress.value = 0;
     currentTime.value = -1;
     isFinished.value = true;
-    sound.pause(); // Stop and reset the sound when the timer is stopped
+
+    sound.pause();
     sound.currentTime = 0;
+
     formatTime(initialTime.value);
   };
 
@@ -86,6 +90,10 @@ export const useTimerStore = defineStore("timer", () => {
       pauseTimer();
     } else if (isTimerPaused.value) {
       startTimer();
+
+      if (currentTime.value <= warningTime) {
+        sound.play();
+      }
     } else {
       startTimer();
     }

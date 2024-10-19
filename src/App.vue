@@ -3,9 +3,9 @@
     <FloatingContainer
       :initialPosition="{
         x: innerWidth - containerWidth - 10,
-        y: innerHeight - containerHeight - 50,
+        y: innerHeight - containerHeight - 1 * 100,
       }"
-      class="opacity-50 hover:opacity-100"
+      class="absolute z-50 opacity-50 hover:opacity-100"
     >
       <div class="flex flex-col select-none min-w-[150px]">
         <button
@@ -24,6 +24,7 @@
           <li>isFinished:{{ timerStore.isFinished }}</li>
           <li>currentTime:{{ timerStore.currentTime }}</li>
           <li>progress:{{ timerStore.progress.toFixed(1) }}</li>
+          <li>increment:{{ timerStore.increment.toFixed(1) }}</li>
         </ul>
       </div>
     </FloatingContainer>
