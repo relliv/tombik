@@ -13,7 +13,7 @@
       >
         {{ minutes }}
       </div>
-      <span>:</span>
+      <span :class="{ 'animate-pulse': isTimerRunning }">:</span>
       <div
         ref="secondsRef"
         class="seconds"
@@ -35,6 +35,7 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, defineExpose } from "vue";
+import { ITimerInputEvent } from "../../../shared/models/timer/timer";
 
 const minutesRef = ref(),
   secondsRef = ref();
@@ -51,12 +52,12 @@ const emit = defineEmits(["onTimerInputKeyDown", "onTimerInputBlur"]);
 const onTimerInputKeyDown = (
   event: KeyboardEvent | FocusEvent,
   timePart: "minutes" | "seconds"
-) => emit("onTimerInputKeyDown", { event, timePart });
+) => emit("onTimerInputKeyDown", <ITimerInputEvent>{ event, timePart });
 
 const onTimerInputBlur = (
   event: KeyboardEvent | FocusEvent,
   timePart: "minutes" | "seconds"
-) => emit("onTimerInputBlur", { event, timePart });
+) => emit("onTimerInputBlur", <ITimerInputEvent>{ event, timePart });
 
 defineExpose({
   minutesRef,

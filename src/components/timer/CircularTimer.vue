@@ -16,15 +16,13 @@ import {
 } from "./../../shared/utils/timer/timer.util";
 import TimerDisplay from "./display/TimerDisplay.vue";
 import TimerActions from "./actions/TimerActions.vue";
+import { ITimerInputEvent } from "../../shared/models/timer/timer";
 
 const timerDisplayRef: any = ref(null);
 
 // #region Timer Input Events
 
-const onTimerInputBlur = (_event: {
-  event: FocusEvent;
-  timePart: "minutes" | "seconds";
-}): void => {
+const onTimerInputBlur = (_event: ITimerInputEvent): void => {
   console.log("onTimerInputBlur");
 
   let value = (_event.event.target as HTMLElement).innerText;
@@ -45,10 +43,7 @@ const onTimerInputBlur = (_event: {
   progress.value = 0;
 };
 
-const onTimerInputKeyDown = (_event: {
-  event: KeyboardEvent;
-  timePart: "minutes" | "seconds";
-}): void => {
+const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
   console.log("onTimerInputKeyDown");
 
   const value = (_event.event.target as HTMLElement).innerText;
