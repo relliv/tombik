@@ -1,0 +1,8 @@
+.timer-container {
+    @apply flex flex-col justify-center items-center gap-[50px]
+        h-full w-3/12 mx-auto select-none;
+}
+
+.circular-timer-container {
+    @apply relative flex flex-row;
+}

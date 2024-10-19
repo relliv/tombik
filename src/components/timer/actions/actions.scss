@@ -1,0 +1,41 @@
+.actions {
+    @apply flex flex-row justify-between w-full;
+}
+
+.actions .action {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
+    width: 30%;
+}
+
+.actions .action.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.actions .action button {
+    background-color: #292639;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.actions .action button:hover {
+    background-color: #372c70;
+}
+
+.actions .action svg {
+    color: #fff;
+}

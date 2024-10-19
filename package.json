@@ -2,8 +2,7 @@
   "name": "electron-vue-vite-tw",
   "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Really simple Electron + Vue + Vite boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "Cross platform pomodoro app",
   "license": "MIT",
   "private": true,
   "keywords": [
@@ -11,7 +10,9 @@
     "rollup",
     "vite",
     "vue3",
-    "vue"
+    "vue",
+    "pomodoro",
+    "timer"
   ],
   "debug": {
     "env": {
@@ -37,5 +38,9 @@
     "vite-plugin-electron-renderer": "^0.14.6",
     "vue": "^3.5.12",
     "vue-tsc": "^2.1.6"
+  },
+  "dependencies": {
+    "@tabler/icons-vue": "^3.19.0",
+    "vue-ellipse-progress": "^2.2.0"
   }
 }
