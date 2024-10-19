@@ -26,10 +26,6 @@
             </p>
           </TooltipContent>
         </Tooltip>
-
-        <!-- <span>
-        {{ isTimerRunning ? "Pause" : "Start" }}
-      </span> -->
       </div>
 
       <!-- Stop -->
@@ -50,8 +46,6 @@
             <p>Stop</p>
           </TooltipContent>
         </Tooltip>
-
-        <!-- <span> Stop </span> -->
       </div>
     </div>
   </TooltipProvider>
