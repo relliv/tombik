@@ -3,24 +3,29 @@
   <div class="editable-timer-container">
     <!-- Timer Inputs -->
     <div class="editable-timer">
+      <!-- Minutes -->
       <div
         ref="minutesRef"
         class="minutes"
         placeholder="00"
-        :contenteditable="!isTimerRunning"
+        :contenteditable="!isTimerRunning && isFinished"
         @keydown="onTimerInputKeyDown($event, 'minutes')"
         @blur="onTimerInputBlur($event, 'minutes')"
       >
         {{ minutes }}
       </div>
-      <span class="divider" :class="{ 'animate-pulse': isTimerRunning }"
-        >:</span
-      >
+
+      <!-- Divider -->
+      <span class="divider" :class="{ 'animate-pulse': isTimerRunning }">
+        :
+      </span>
+
+      <!-- Seconds -->
       <div
         ref="secondsRef"
         class="seconds"
         placeholder="00"
-        :contenteditable="!isTimerRunning"
+        :contenteditable="!isTimerRunning && isFinished"
         @keydown="onTimerInputKeyDown($event, 'seconds')"
         @blur="onTimerInputBlur($event, 'seconds')"
       >
@@ -47,6 +52,7 @@ const props = defineProps({
   seconds: String,
   isTimerRunning: Boolean,
   isTimerPaused: Boolean,
+  isFinished: Boolean,
 });
 
 const emit = defineEmits(["onTimerInputKeyDown", "onTimerInputBlur"]);

@@ -23,6 +23,7 @@
         :seconds="timerStore.seconds"
         :isTimerRunning="timerStore.isTimerRunning"
         :isTimerPaused="timerStore.isTimerPaused"
+        :isFinished="timerStore.isFinished"
         ref="timerDisplayRef"
         @onTimerInputKeyDown="onTimerInputKeyDown($event)"
         @onTimerInputBlur="onTimerInputBlur($event)"
