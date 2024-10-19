@@ -1,11 +1,5 @@
 <template>
-  <div class="flex flex-row">
-    <ul>
-      <li>isFinished:{{ timerStore.isFinished }}</li>
-      <li>currentTime:{{ timerStore.currentTime }}</li>
-      <li>progress:{{ timerStore.progress }}</li>
-    </ul>
-  </div>
+  <h1>Home Page</h1>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="visible"
     class="floating-container"
     :style="{ top: `${position.y}px`, left: `${position.x}px` }"
     @mousedown="startDrag"
@@ -9,16 +10,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 
-const position = ref({ x: 0, y: 0 }); // Position is dynamically set on mount
+const props = defineProps({
+  initialPosition: {
+    type: Object,
+    default: () => ({ x: null, y: null }),
+  },
+  visible: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const position = ref({ x: 0, y: 0 });
 const isDragging = ref(false);
+
 let dragOffset = { x: 0, y: 0 };
 
 const startDrag = (event) => {
   isDragging.value = true;
+
   dragOffset.x = event.clientX - position.value.x;
   dragOffset.y = event.clientY - position.value.y;
+
   document.addEventListener("mousemove", drag);
   document.addEventListener("mouseup", stopDrag);
 };
@@ -34,18 +49,42 @@ const drag = (event) => {
 
 const stopDrag = () => {
   isDragging.value = false;
+
   document.removeEventListener("mousemove", drag);
   document.removeEventListener("mouseup", stopDrag);
 };
 
-// Place the component at the bottom-right with 20px padding from the edges
 onMounted(() => {
   const { innerWidth, innerHeight } = window;
+
+  const defaultPosition = {
+    x: innerWidth - 220,
+    y: innerHeight - 120,
+  };
+
   position.value = {
-    x: innerWidth - 150, // 200px is the approximate width of the component
-    y: innerHeight - 100, // 100px is the approximate height of the component
+    x:
+      props.initialPosition.x !== null
+        ? props.initialPosition.x
+        : defaultPosition.x,
+    y:
+      props.initialPosition.y !== null
+        ? props.initialPosition.y
+        : defaultPosition.y,
   };
 });
+
+watch(
+  () => props.initialPosition,
+  (newPosition) => {
+    if (newPosition) {
+      position.value = {
+        x: newPosition.x !== null ? newPosition.x : position.value.x,
+        y: newPosition.y !== null ? newPosition.y : position.value.y,
+      };
+    }
+  }
+);
 
 onBeforeUnmount(() => {
   document.removeEventListener("mousemove", drag);

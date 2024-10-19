@@ -1,11 +1,5 @@
 <template>
   <div class="flex flex-col w-full h-full">
-    <ul>
-      <li>isFinished:{{ timerStore.isFinished }}</li>
-      <li>currentTime:{{ timerStore.currentTime }}</li>
-      <li>progress:{{ timerStore.progress }}</li>
-    </ul>
-
     <CircularTimer />
   </div>
 </template>
