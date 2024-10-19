@@ -13,7 +13,9 @@
       >
         {{ minutes }}
       </div>
-      <span :class="{ 'animate-pulse': isTimerRunning }">:</span>
+      <span class="divider" :class="{ 'animate-pulse': isTimerRunning }"
+        >:</span
+      >
       <div
         ref="secondsRef"
         class="seconds"

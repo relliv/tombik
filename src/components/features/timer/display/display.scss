@@ -2,35 +2,36 @@
     @apply absolute flex flex-col justify-center items-center gap-[20px] mt-[20px]
         top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]
         text-white;
-}
 
-.editable-timer-container .status {
-    @apply text-[14px] leading-[16px] h-[17px];
-}
+    .editable-timer {
+        @apply flex flex-row justify-center items-center gap-[2px];
 
-.editable-timer {
-    @apply flex flex-row justify-center items-center gap-[2px];
-}
+        .minutes,
+        .seconds {
+            @apply w-[70px] text-[40px] font-medium px-[8px] py-[3px] rounded-[5px]
+                text-center outline-none;
 
-.editable-timer .minutes,
-.editable-timer .seconds {
-    @apply w-[70px] text-[40px] font-medium px-[8px] py-[3px] rounded-[5px]
-        text-center outline-none;
-}
+            &:focus {
+                background-color: #292639;
+            }
 
-.editable-timer .minutes[contenteditable="true"],
-.editable-timer .seconds[contenteditable="true"] {
-    background-color: #1d1b27;
-}
+            &[contenteditable="true"] {
+                background-color: #1d1b27;
 
-.editable-timer .minutes[contenteditable="true"]:hover,
-.editable-timer .seconds[contenteditable="true"]:hover {
-    @apply text-[40px] font-medium transition-all duration-200 ease-in-out;
+                &:hover {
+                    @apply text-[40px] font-medium transition-all duration-200 ease-in-out;
 
-    background-color: #292639;
-}
+                    background-color: #292639;
+                }
+            }
+        }
+    }
 
-.editable-timer .minutes:focus,
-.editable-timer .seconds:focus {
-    background-color: #292639;
+    .status {
+        @apply text-[14px] leading-[16px] h-[17px];
+    }
+
+    .divider {
+        @apply text-2xl;
+    }
 }
