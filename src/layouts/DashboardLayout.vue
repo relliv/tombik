@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-row">
+  <div class="flex flex-row w-full h-full">
     <Sidebar />
 
-    <main>
+    <main class="w-full h-full">
       <router-view />
     </main>
   </div>

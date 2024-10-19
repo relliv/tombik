@@ -1,37 +1,57 @@
 <template>
-  <!-- Timer Actions -->
-  <div class="actions">
-    <!-- Start / Pausee -->
-    <div class="action">
-      <button @click="onStartPauseClick">
-        <!-- Pause -->
-        <IconPlayerPauseFilled v-if="isTimerRunning" />
+  <TooltipProvider>
+    <!-- Timer Actions -->
+    <div class="actions">
+      <!-- Start / Pausee -->
+      <div class="action">
+        <Tooltip>
+          <TooltipTrigger as-child>
+            <Button @click="onStartPauseClick">
+              <!-- Pause -->
+              <IconPlayerPauseFilled v-if="isTimerRunning" />
 
-        <!-- Play -->
-        <IconPlayerPlayFilled
-          v-if="isTimerPaused || (!isTimerRunning && !isTimerPaused)"
-        />
-      </button>
+              <!-- Play -->
+              <IconPlayerPlayFilled
+                v-if="isTimerPaused || (!isTimerRunning && !isTimerPaused)"
+              />
+            </Button>
+          </TooltipTrigger>
 
-      <span>
+          <TooltipContent>
+            <p>
+              {{ isTimerRunning ? "Pause" : "Start" }}
+            </p>
+          </TooltipContent>
+        </Tooltip>
+
+        <!-- <span>
         {{ isTimerRunning ? "Pause" : "Start" }}
-      </span>
-    </div>
+      </span> -->
+      </div>
 
-    <!-- Stop -->
-    <div
-      class="action"
-      :class="{
-        disabled: isFinished,
-      }"
-    >
-      <button @click="onTimerStopClick" :disabled="isFinished">
-        <IconPlayerStopFilled />
-      </button>
+      <!-- Stop -->
+      <div
+        class="action"
+        :class="{
+          disabled: isFinished,
+        }"
+      >
+        <Tooltip>
+          <TooltipTrigger as-child>
+            <Button @click="onTimerStopClick" :disabled="isFinished">
+              <IconPlayerStopFilled />
+            </Button>
+          </TooltipTrigger>
 
-      <span> Stop </span>
+          <TooltipContent>
+            <p>Stop</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <!-- <span> Stop </span> -->
+      </div>
     </div>
-  </div>
+  </TooltipProvider>
 </template>
 
 <script setup lang="ts">
@@ -48,9 +68,18 @@ import {
   IconPlayerStopFilled,
 } from "@tabler/icons-vue";
 
+import { Button } from "/src/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "/src/components/ui/tooltip";
+
 const props = defineProps({
   isTimerRunning: Boolean,
   isTimerPaused: Boolean,
+  isFinished: Boolean,
 });
 
 const emit = defineEmits(["onStartPauseClick", "onTimerStopClick"]);
@@ -66,9 +95,17 @@ defineExpose({
 });
 
 defineComponent({
+  // icons
   IconPlayerPlayFilled,
   IconPlayerPauseFilled,
   IconPlayerStopFilled,
+
+  // shadcn component
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 });
 </script>
 

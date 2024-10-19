@@ -13,7 +13,7 @@ import {
   timer,
   stopTimer,
   handleStartPause,
-} from "./../../shared/utils/timer/timer.util";
+} from "/src/shared/utils/timer/timer.util";
 import TimerDisplay from "./display/TimerDisplay.vue";
 import TimerActions from "./actions/TimerActions.vue";
 import { ITimerInputEvent } from "../../shared/models/timer/timer";
@@ -216,6 +216,9 @@ onUnmounted(() => {
 
     <!-- Actions -->
     <TimerActions
+      :isTimerRunning="isTimerRunning"
+      :isTimerPaused="isTimerPaused"
+      :isFinished="isFinished"
       @onStartPauseClick="onStartPauseClick"
       @onTimerStopClick="onTimerStopClick"
     />
