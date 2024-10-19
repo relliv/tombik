@@ -24,7 +24,7 @@ export const useTimerStore = defineStore("timer", () => {
     "/assets/media/sounds/timer/209698__eaglestealthteam__analog-timer.mp3"
   );
 
-  const warningTime = 15;
+  const warningTime = 16;
 
   // Actions
   const startTimer = () => {
@@ -62,8 +62,6 @@ export const useTimerStore = defineStore("timer", () => {
         clearInterval(timer);
         isTimerRunning.value = false;
         isFinished.value = true;
-        sound.pause();
-        sound.currentTime = 0;
 
         setTimeout(() => {
           finishReason.value = IFinishReason.FINISHED;
