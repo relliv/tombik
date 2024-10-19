@@ -1,7 +1,6 @@
 <template>
-  <CircularTimer />
+  <h1>home</h1>
 </template>
 
 <script setup lang="ts">
-import CircularTimer from "../components/features/timer/CircularTimer.vue";
 </script>

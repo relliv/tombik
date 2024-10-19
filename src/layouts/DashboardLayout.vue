@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-row w-full h-full">
+  <div class="dashboard-layout">
     <Sidebar />
 
-    <main class="w-full h-full">
+    <main>
       <router-view />
     </main>
   </div>
@@ -11,3 +11,7 @@
 <script setup lang="ts">
 import Sidebar from "./components/sidebar/Sidebar.vue";
 </script>
+
+<style scoped>
+@import "./dashboard-layout.scss";
+</style>

@@ -1,6 +1,7 @@
 import { createMemoryHistory, createRouter } from "vue-router";
 
 import HomeView from "./../views/HomeView.vue";
+import TimerView from "./../views/TimerView.vue";
 import DashboardLayout from "../layouts/DashboardLayout.vue";
 
 const routes = [
@@ -12,6 +13,11 @@ const routes = [
         path: "",
         name: "home",
         component: HomeView,
+      },
+      {
+        path: "/timer",
+        name: "timer",
+        component: TimerView,
       },
     ],
   },
