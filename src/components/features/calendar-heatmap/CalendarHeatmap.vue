@@ -10,6 +10,7 @@
           height: (props.options.cellSize || 15) + 'px',
           width: (props.options.cellSize || 15) + 'px',
         }"
+        v-if="!props.options.hideEmptyDays"
       ></button>
 
       <!-- Available Days -->
@@ -31,6 +32,7 @@
           height: (props.options.cellSize || 15) + 'px',
           width: (props.options.cellSize || 15) + 'px',
         }"
+        v-if="!props.options.hideEmptyDays"
       ></button>
     </div>
   </div>

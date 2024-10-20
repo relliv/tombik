@@ -23,6 +23,7 @@ export interface ICalendarHeatmapOptions {
   startDate: string;
   cellSize?: number;
   colors?: IHeatmapColor[];
+  hideEmptyDays?: boolean;
 
   // events
   onClick?: (day: IHeatmapDay) => void;
