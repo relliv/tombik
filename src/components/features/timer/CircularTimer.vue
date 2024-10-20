@@ -221,7 +221,6 @@ onUnmounted(() => {
 });
 </script>
 
-
 <style scoped>
 @import "./timer.scss";
 </style>

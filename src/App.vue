@@ -42,9 +42,9 @@ import FloatingContainer from "@/components/ui/floating-container/FloatingContai
 import { useTimerStore } from "@/shared/stores/timer.store";
 import Toaster from "@/components/ui/toast/Toaster.vue";
 import { useToast } from "@/components/ui/toast/use-toast";
+import { IFinishReason } from "./shared/models/timer/timer";
 
 import "./styles/style.scss";
-import { IFinishReason } from "./shared/models/timer/timer";
 
 const timerStore = useTimerStore();
 const { toast } = useToast();
@@ -60,11 +60,19 @@ const containerHeight = 100;
 watch(
   () => timerStore.finishReason,
   (newValue: string) => {
+    let title = null,
+      message = null;
+      
     if (newValue === IFinishReason.FINISHED) {
+      title = "Timer Finished";
+      message = "Well done!";
+      
       toast({
-        title: "Sprint completed!",
-        description: "Well done!",
+        title,
+        description: message,
       });
+
+      (window as any).ipcRenderer.sendNotification(title, message);
     }
   }
 );

@@ -1,8 +1,8 @@
 {
-  "name": "electron-vue-vite-tw",
+  "name": "tombik",
   "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Cross platform pomodoro app",
+  "description": "Cross platform pomodoro and micro task/timer management app",
   "license": "MIT",
   "private": true,
   "keywords": [
