@@ -4,7 +4,7 @@ export enum TimePart {
 }
 
 export interface ITimerInputEvent {
-  event: KeyboardEvent | FocusEvent;
+  event: KeyboardEvent;
   timePart: TimePart;
 }
 
