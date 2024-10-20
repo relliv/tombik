@@ -87,6 +87,8 @@ const onScrollChange = (event: WheelEvent, timePart: "minutes" | "seconds") => {
 
     if (newMinutes < 0) {
       newMinutes = 0;
+    } else if (newMinutes > 99) {
+      newMinutes = 99;
     }
 
     emit("onScrollChange", <ITimerInputChangeEvent>{
