@@ -48,7 +48,7 @@ import {
   ITimerInputEvent,
   ITimerInputChangeEvent,
 } from "@/shared/models/timer/timer";
-import { TimePart } from "../../../../shared/models/timer/timer";
+import { TimePart } from "@/shared/models/timer/timer";
 
 const minutesRef = ref(),
   secondsRef = ref();

@@ -47,11 +47,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useTimerStore } from "@/shared/stores/timer.store";
 import TimerDisplay from "./display/TimerDisplay.vue";
 import TimerActions from "./actions/TimerActions.vue";
-import { ITimerInputEvent } from "../../../shared/models/timer/timer";
-import {
-  ITimerInputChangeEvent,
-  TimePart,
-} from "../../../shared/models/timer/timer";
+import { ITimerInputEvent, ITimerInputChangeEvent, TimePart } from "@/shared/models/timer/timer";
 
 const timerDisplayRef: any = ref(null);
 const timerStore = useTimerStore();
