@@ -26,6 +26,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/luxon": "^3.4.2",
     "@vitejs/plugin-vue": "^5.1.4",
     "autoprefixer": "^10.4.20",
     "electron": "^33.0.0",
@@ -45,6 +46,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.453.0",
+    "luxon": "^3.5.0",
     "pinia": "^2.2.4",
     "radix-vue": "^1.9.7",
     "tailwind-merge": "^2.5.4",
