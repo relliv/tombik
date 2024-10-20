@@ -1,0 +1,15 @@
+header {
+    @apply flex flex-row items-center justify-between w-full pb-5 pt-3;
+
+    .greeting {
+        @apply flex flex-col gap-1;
+
+        .name {
+            @apply text-3xl text-white;
+        }
+
+        .message {
+            @apply text-base font-light text-gray-500;
+        }
+    }
+}
