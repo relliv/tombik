@@ -27,6 +27,7 @@
         ref="timerDisplayRef"
         @onTimerInputKeyDown="onTimerInputKeyDown($event)"
         @onTimerInputBlur="onTimerInputBlur($event)"
+        @onScrollChange="onScrollChange($event)"
       />
     </div>
 
@@ -46,7 +47,11 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useTimerStore } from "/src/shared/stores/timer.store";
 import TimerDisplay from "./display/TimerDisplay.vue";
 import TimerActions from "./actions/TimerActions.vue";
-import { ITimerInputEvent } from "../../shared/models/timer/timer";
+import { ITimerInputEvent } from "../../../shared/models/timer/timer";
+import {
+  ITimerInputChangeEvent,
+  TimePart,
+} from "../../../shared/models/timer/timer";
 
 const timerDisplayRef: any = ref(null);
 const timerStore = useTimerStore();
@@ -59,9 +64,9 @@ const onTimerInputBlur = (_event: ITimerInputEvent): void => {
   let value = (_event.event.target as HTMLElement).innerText;
 
   // ensure value is exactly two characters, pad with zeroes if needed
-  if (_event.timePart === "minutes") {
+  if (_event.timePart === TimePart.MINUTES) {
     timerStore.minutes = value.padStart(2, "0").substring(0, 2);
-  } else if (_event.timePart === "seconds") {
+  } else if (_event.timePart === TimePart.SECONDS) {
     timerStore.seconds = value.padStart(2, "0").substring(0, 2);
   }
 
@@ -83,9 +88,9 @@ const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
   if (_event.event.key === "Tab") {
     _event.event.preventDefault();
 
-    if (_event.timePart === "minutes") {
+    if (_event.timePart === TimePart.MINUTES) {
       timerDisplayRef.value?.secondsRef?.focus();
-    } else if (_event.timePart === "seconds") {
+    } else if (_event.timePart === TimePart.SECONDS) {
       timerDisplayRef.value?.minutesRef?.focus();
     }
   }
@@ -95,9 +100,9 @@ const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
     _event.event.preventDefault();
 
     // ensure value is exactly two characters, pad with zeroes if needed
-    if (_event.timePart === "minutes") {
+    if (_event.timePart === TimePart.MINUTES) {
       timerStore.minutes = value.padStart(2, "0").substring(0, 2);
-    } else if (_event.timePart === "seconds") {
+    } else if (_event.timePart === TimePart.SECONDS) {
       timerStore.seconds = value.padStart(2, "0").substring(0, 2);
     }
 
@@ -119,14 +124,24 @@ const onTimerInputKeyDown = (_event: ITimerInputEvent): void => {
   if (value.length >= 2 && _event.event.key !== "Backspace") {
     const newValue = value.substring(1) + _event.event.key;
 
-    if (_event.timePart === "minutes") {
+    if (_event.timePart === TimePart.MINUTES) {
       timerStore.minutes = newValue;
-    } else if (_event.timePart === "seconds") {
+    } else if (_event.timePart === TimePart.SECONDS) {
       timerStore.seconds = newValue;
     }
 
     _event.event.preventDefault();
   }
+};
+
+const onScrollChange = (_event: ITimerInputChangeEvent): void => {
+  if (_event.timePart === TimePart.MINUTES) {
+    timerStore.minutes = _event.change;
+  } else if (_event.timePart === TimePart.SECONDS) {
+    timerStore.seconds = _event.change;
+  }
+
+  handleTimerLegendUpdate();
 };
 
 // #endregion
