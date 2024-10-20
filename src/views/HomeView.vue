@@ -35,6 +35,10 @@ import { ref } from "vue";
 const startDate = ref("2023-01-01");
 const cellSize = 15;
 
+const heatmapColors = [
+  { min: 0, max: 0, color: "#FFFFFF" },
+]
+
 const onDayClick = (day: IHeatmapDay) => {
   console.log(`Clicked on ${day.date} with value ${day.count}`);
 }

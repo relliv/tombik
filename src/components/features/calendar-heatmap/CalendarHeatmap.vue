@@ -30,6 +30,12 @@ import { ref, watch } from 'vue';
 import { DateTime } from 'luxon';
 import { ICalendarHeatmapOptions, IHeatmapDay } from './calendar-heatmap';
 
+const levels = ref(4);
+const min = ref(0);
+const max = ref(0);
+const range = ref(0);
+const step = ref(0);
+
 const props = defineProps({
   options: {
     type: Object as () => ICalendarHeatmapOptions,
@@ -51,14 +57,17 @@ const calculateFirstWeekOffset = (startDate: DateTime) => {
 const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
   const daysBetween = Math.floor(endDate.diff(startDate, 'days').days);
   const heatmap = [];
+  
   let currentDate = startDate;
 
   for (let i = 0; i <= daysBetween; i++) {
     const day: IHeatmapDay = {
       date: currentDate,
-      count: Math.floor(Math.random() * 5), // Random value for heatmap
+      count: Math.floor(Math.random() * 101), // Random value between 0-100
     };
+
     heatmap.push(day);
+    
     currentDate = currentDate.plus({ days: 1 });
   }
 
@@ -88,7 +97,23 @@ const heatmapData = ref<IHeatmapDay[]>([]);
 const firstWeekOffset = ref<number>(0);
 
 const updateHeatmapData = () => {
+  if (props.options.colors) {
+    levels.value = props.options.colors.length;
+  }
+
+  if (levels.value < 4) {
+    levels.value = 4;
+
+    console.warn(`CalendarHeatmap: The 'levels' option must be at least 4, but it was set to ${levels.value}.`)
+  }
+  
+  min.value = 0;
+  max.value = 100;
+  range.value = max.value - min.value;
+  step.value = range.value / levels.value;
+  
   const { type, startDate } = props.options;
+  
   let endDate: DateTime;
 
   switch (type) {
@@ -110,26 +135,24 @@ const updateHeatmapData = () => {
 // Watch for prop changes and update heatmap accordingly
 watch(() => props.options, updateHeatmapData, { immediate: true });
 
+// Function to classify the day based on its value
+const getDayClass = (value: number): string => {
+  if (value === 0) {
+    return 'level-0';
+  }
+
+  for (let i = 0; i < levels.value; i++) {
+    if (value <= min.value + step.value * (i + 1)) {
+      return `level-${i + 1}`;
+    }
+  }
+
+  return 'level-0';
+};
+
 const onDayClick = (day: IHeatmapDay): void => {
   if (props.options.onClick !== undefined) {
     props.options.onClick(day);
-  }
-};
-
-const getDayClass = (value: number) => {
-  switch (value) {
-    case 1:
-      return 'bg-green-100';
-    case 2:
-      return 'bg-green-300';
-    case 3:
-      return 'bg-green-500';
-    case 4:
-      return 'bg-green-700';
-    case 5:
-      return 'bg-green-900';
-    default:
-      return 'bg-gray-200';
   }
 };
 </script>
