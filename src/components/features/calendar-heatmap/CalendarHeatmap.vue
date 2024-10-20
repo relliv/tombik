@@ -1,8 +1,8 @@
 <template>
   <div class="calendar-heatmap">
     <div class="heatmap-grid">
-      <!-- Render empty cells for the first week based on the starting date's weekday -->
-      <div
+      <!-- Empty Days -->
+      <button
         v-for="empty in firstWeekOffset"
         :key="'empty-' + empty"
         class="day empty"
@@ -10,17 +10,17 @@
           height: (props.options.cellSize || 15) + 'px',
           width: (props.options.cellSize || 15) + 'px',
         }"
-      ></div>
+      ></button>
 
-      <!-- Render actual days -->
-      <div
+      <!-- Available Days -->
+      <button
         v-for="(day, index) in heatmapData"
         :key="day.date"
         :class="getDayClass(day.value)"
         class="day"
         @click="onDayClick(day)"
         :style="getGridPosition(index)"
-      ></div>
+      ></button>
     </div>
   </div>
 </template>
@@ -48,6 +48,7 @@ interface Day {
 // Calculate the number of empty cells before the first date
 const calculateFirstWeekOffset = (startDate: DateTime) => {
   const weekday = startDate.weekday; // Luxon: 1 = Monday, 7 = Sunday
+  
   return weekday === 7 ? 6 : weekday - 1; // Sunday (7) needs 6 empty cells, Monday (1) needs 0
 };
 
@@ -145,28 +146,5 @@ const getDayClass = (value: number) => {
 </script>
 
 <style scoped>
-.calendar-heatmap {
-  display: flex;
-  justify-content: center;
-}
-
-.heatmap-grid {
-  display: grid;
-  grid-template-rows: repeat(0, 20px);
-  grid-auto-flow: column;
-  gap: 2px;
-}
-
-.day {
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.day:hover {
-  opacity: 0.7;
-}
-
-.empty {
-  background-color: transparent;
-}
+@import './calendar-heatmap.scss';
 </style>

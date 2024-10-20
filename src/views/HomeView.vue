@@ -28,6 +28,6 @@
 import CalendarHeatmap from "@/components/features/calendar-heatmap/CalendarHeatmap.vue";
 import { ref } from "vue";
 
-const startDate = ref("2022-01-01");
+const startDate = ref("2023-01-01");
 const cellSize = 15;
 </script>

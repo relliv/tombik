@@ -1,8 +1,22 @@
-.day {
-    @apply w-[20px]
+.calendar-heatmap {
+    @apply flex flex-row justify-center;
 
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    .heatmap-grid {
+        @apply grid gap-[2px];
+
+        grid-template-rows: repeat(0, 20px);
+        grid-auto-flow: column;
+
+        .day {
+            @apply transition-all duration-200 ease-in-out;
+
+            &:hover {
+                @apply opacity-70;
+            }
+
+            &.empty {
+                @apply cursor-default bg-gray-800;
+            }
+        }
+    }
 }
