@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="h-28 bg-tombik-primary-700"></div>
 </template>
 
 <script setup lang="ts">

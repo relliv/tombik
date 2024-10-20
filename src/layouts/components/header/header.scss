@@ -12,4 +12,11 @@ header {
             @apply text-base font-light text-gray-500;
         }
     }
+
+    .search {
+        input {
+            @apply px-6 py-3 rounded-full bg-gray-500/20 text-white
+                border-none outline-none text-base;
+        }
+    }
 }
