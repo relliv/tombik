@@ -15,8 +15,8 @@
       <!-- Available Days -->
       <button
         v-for="(day, index) in heatmapData"
-        :key="day.date"
-        :class="getDayClass(day.value)"
+        :key="index"
+        :class="getDayClass(day.count)"
         class="day"
         @click="onDayClick(day)"
         :style="getGridPosition(index)"
@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { DateTime } from 'luxon';
-import { ICalendarHeatmapOptions } from './calendar-heatmap';
+import { ICalendarHeatmapOptions, IHeatmapDay } from './calendar-heatmap';
 
 const props = defineProps({
   options: {
@@ -39,11 +39,6 @@ const props = defineProps({
     }),
   },
 });
-
-interface Day {
-  date: string;
-  value: number;
-}
 
 // Calculate the number of empty cells before the first date
 const calculateFirstWeekOffset = (startDate: DateTime) => {
@@ -59,9 +54,9 @@ const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
   let currentDate = startDate;
 
   for (let i = 0; i <= daysBetween; i++) {
-    const day: Day = {
-      date: currentDate.toISODate() || '',
-      value: Math.floor(Math.random() * 5), // Random value for heatmap
+    const day: IHeatmapDay = {
+      date: currentDate,
+      count: Math.floor(Math.random() * 5), // Random value for heatmap
     };
     heatmap.push(day);
     currentDate = currentDate.plus({ days: 1 });
@@ -72,23 +67,15 @@ const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
 
 // Grid position calculation depending on format
 const getGridPosition = (index: number) => {
-  switch (props.options.type) {
-    case 'weekly':
-      return {
+  if (props.options.type === 'weekly') {
+    return {
         gridRow: 1,
         gridColumn: index + 1,
         height: (props.options.cellSize || 15) + 'px',
         width: (props.options.cellSize || 15) + 'px'
       };
-    case 'monthly':
-      return {
-        gridRow: ((index + firstWeekOffset.value) % 7) + 1,
-        gridColumn: Math.floor((index + firstWeekOffset.value) / 7) + 1,
-        height: (props.options.cellSize || 15) + 'px',
-        width: (props.options.cellSize || 15) + 'px'
-      };
-    case 'yearly':
-      return {
+  } else {
+    return {
         gridRow: ((index + firstWeekOffset.value) % 7) + 1,
         gridColumn: Math.floor((index + firstWeekOffset.value) / 7) + 1,
         height: (props.options.cellSize || 15) + 'px',
@@ -97,7 +84,7 @@ const getGridPosition = (index: number) => {
   }
 };
 
-const heatmapData = ref<Day[]>([]);
+const heatmapData = ref<IHeatmapDay[]>([]);
 const firstWeekOffset = ref<number>(0);
 
 const updateHeatmapData = () => {
@@ -123,8 +110,8 @@ const updateHeatmapData = () => {
 // Watch for prop changes and update heatmap accordingly
 watch(() => props.options, updateHeatmapData, { immediate: true });
 
-const onDayClick = (day: Day) => {
-  console.log(`Clicked on ${day.date} with value ${day.value}`);
+const onDayClick = (day: IHeatmapDay) => {
+  console.log(`Clicked on ${day.date} with value ${day.count}`);
 };
 
 const getDayClass = (value: number) => {
