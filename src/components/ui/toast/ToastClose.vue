@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from "/src/shared/utils";
+import { cn } from "@/shared/utils";
 import { X } from "lucide-vue-next";
 import { ToastClose, type ToastCloseProps } from "radix-vue";
 import { computed, type HTMLAttributes } from "vue";

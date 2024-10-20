@@ -38,10 +38,10 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import FloatingContainer from "/src/components/ui/floating-container/FloatingContainer.vue";
-import { useTimerStore } from "/src/shared/stores/timer.store";
-import Toaster from "/src/components/ui/toast/Toaster.vue";
-import { useToast } from "/src/components/ui/toast/use-toast";
+import FloatingContainer from "@/components/ui/floating-container/FloatingContainer.vue";
+import { useTimerStore } from "@/shared/stores/timer.store";
+import Toaster from "@/components/ui/toast/Toaster.vue";
+import { useToast } from "@/components/ui/toast/use-toast";
 
 import "./styles/style.scss";
 import { IFinishReason } from "./shared/models/timer/timer";
@@ -59,7 +59,7 @@ const containerHeight = 100;
 
 watch(
   () => timerStore.finishReason,
-  (newValue: IFinishReason) => {
+  (newValue: string) => {
     if (newValue === IFinishReason.FINISHED) {
       toast({
         title: "Sprint completed!",

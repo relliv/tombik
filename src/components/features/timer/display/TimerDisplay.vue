@@ -47,7 +47,7 @@ import { defineProps, defineEmits, ref, defineExpose } from "vue";
 import {
   ITimerInputEvent,
   ITimerInputChangeEvent,
-} from "/src/shared/models/timer/timer";
+} from "@/shared/models/timer/timer";
 import { TimePart } from "../../../../shared/models/timer/timer";
 
 const minutesRef = ref(),

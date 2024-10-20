@@ -40,14 +40,14 @@
 
 <script setup lang="ts">
 import { defineComponent, defineProps, ref } from "vue";
-import { Button } from "/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import ISidebarMenu from "/shared/models/layout/sidebar";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "/src/components/ui/tooltip";
+} from "@/components/ui/tooltip";
 import { IconHome, IconHourglass, IconLaurelWreath } from "@tabler/icons-vue";
 import { RouterLink } from "vue-router";
 

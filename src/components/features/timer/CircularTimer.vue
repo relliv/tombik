@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { useTimerStore } from "/src/shared/stores/timer.store";
+import { useTimerStore } from "@/shared/stores/timer.store";
 import TimerDisplay from "./display/TimerDisplay.vue";
 import TimerActions from "./actions/TimerActions.vue";
 import { ITimerInputEvent } from "../../../shared/models/timer/timer";

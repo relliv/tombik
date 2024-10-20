@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue";
-import { cn } from "/src/shared/utils";
+import { cn } from "@/shared/utils";
 import { Primitive, type PrimitiveProps } from "radix-vue";
 import { type ButtonVariants, buttonVariants } from ".";
 

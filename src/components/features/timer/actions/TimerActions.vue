@@ -64,14 +64,14 @@ import {
   IconPlayerPauseFilled,
   IconPlayerStopFilled,
 } from "@tabler/icons-vue";
-import { Button } from "/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "/src/components/ui/tooltip";
-import { useTimerStore } from "/src/shared/stores/timer.store";
+} from "@/components/ui/tooltip";
+import { useTimerStore } from "@/shared/stores/timer.store";
 
 const timerStore = useTimerStore();
 

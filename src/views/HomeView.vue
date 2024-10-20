@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTimerStore } from "/src/shared/stores/timer.store";
+import { useTimerStore } from "@/shared/stores/timer.store";
 
 const timerStore = useTimerStore();
 </script>
