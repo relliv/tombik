@@ -1,39 +1,40 @@
 <template>
   <TooltipProvider>
     <div class="sidebar">
-      <div class="logo">TK</div>
+      <!-- Top Container -->
+      <div class="top-container">
+        <div class="logo">TK</div>
 
-      <ul>
-        <li v-for="menuItem in menuItems" :key="menuItem.name">
-          <Tooltip>
-            <TooltipTrigger as-child>
-              <RouterLink :to="menuItem.route">
-                <Button
-                  class="p-3 rounded-full size-12"
-                  :class="{
+        <ul>
+          <li v-for="menuItem in menuItems" :key="menuItem.name">
+            <Tooltip>
+              <TooltipTrigger as-child>
+                <RouterLink :to="menuItem.route">
+                  <Button class="p-3 rounded-full size-12" :class="{
                     active: menuItem.isActive,
                     disabled: menuItem.isDisabled,
-                  }"
-                  @click="onMenuItemClick($event, menuItem)"
-                >
-                  <component :is="menuItem.icon" />
-                </Button>
-              </RouterLink>
-            </TooltipTrigger>
+                  }" @click="onMenuItemClick($event, menuItem)">
+                    <component :is="menuItem.icon" />
+                  </Button>
+                </RouterLink>
+              </TooltipTrigger>
 
-            <TooltipContent
-              side="right"
-              :class="{
+              <TooltipContent side="right" :class="{
                 disabled: menuItem.isDisabled,
-              }"
-            >
-              <p>
-                {{ menuItem.name }}
-              </p>
-            </TooltipContent>
-          </Tooltip>
-        </li>
-      </ul>
+              }">
+                <p>
+                  {{ menuItem.name }}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Container -->
+       <div class="bottom-container">
+        <!-- To be implemented -->
+       </div>
     </div>
   </TooltipProvider>
 </template>
@@ -41,7 +42,7 @@
 <script setup lang="ts">
 import { defineComponent, defineProps, ref } from "vue";
 import { Button } from "@/components/ui/button";
-import ISidebarMenu from "/shared/models/layout/sidebar";
+import ISidebarMenu from "@/shared/models/layout/sidebar";
 import {
   Tooltip,
   TooltipContent,

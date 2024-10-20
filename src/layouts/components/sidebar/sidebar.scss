@@ -1,9 +1,5 @@
 .sidebar {
-    @apply flex flex-col gap-5 px-3 py-2 justify-start items-center;
-
-    .logo {
-        @apply text-3xl;
-    }
+    @apply flex flex-col gap-5 px-3 py-2 justify-between items-center;
 
     ul {
         @apply flex flex-col gap-5 bg-gray-500/20 p-2 rounded-full;
@@ -33,5 +29,17 @@
                 }
             }
         }
+    }
+
+    .top-container {
+        @apply flex flex-col gap-5 justify-center items-center;
+
+        .logo {
+            @apply text-3xl;
+        }
+    }
+
+    .bottom-container {
+        // To be implemented
     }
 }
