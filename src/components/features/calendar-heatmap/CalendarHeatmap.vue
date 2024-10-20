@@ -16,10 +16,10 @@
       <button
         v-for="(day, index) in heatmapData"
         :key="index"
-        :class="getDayClass(day.count)"
         class="day"
-        @click="onDayClick(day)"
+        :class="getDayClass(day.count)"
         :style="getGridPosition(index)"
+        @click="onDayClick(day)"
       ></button>
     </div>
   </div>
@@ -110,8 +110,10 @@ const updateHeatmapData = () => {
 // Watch for prop changes and update heatmap accordingly
 watch(() => props.options, updateHeatmapData, { immediate: true });
 
-const onDayClick = (day: IHeatmapDay) => {
-  console.log(`Clicked on ${day.date} with value ${day.count}`);
+const onDayClick = (day: IHeatmapDay): void => {
+  if (props.options.onClick !== undefined) {
+    props.options.onClick(day);
+  }
 };
 
 const getDayClass = (value: number) => {
