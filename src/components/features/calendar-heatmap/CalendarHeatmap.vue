@@ -1,7 +1,7 @@
 <template>
   <div class="calendar-heatmap">
     <div class="heatmap-grid">
-      <!-- Empty Days -->
+      <!-- First Week Empty Days -->
       <button
         v-for="empty in firstWeekOffset"
         :key="'empty-' + empty"
@@ -20,6 +20,17 @@
         :class="getDayClass(day.count)"
         :style="getGridPosition(index)"
         @click="onDayClick(day)"
+      ></button>
+
+      <!-- Last Week Empty Days -->
+      <button
+        v-for="empty in lastWeekOffset"
+        :key="'empty-' + empty"
+        class="day empty"
+        :style="{
+          height: (props.options.cellSize || 15) + 'px',
+          width: (props.options.cellSize || 15) + 'px',
+        }"
       ></button>
     </div>
   </div>
@@ -52,6 +63,12 @@ const calculateFirstWeekOffset = (startDate: DateTime) => {
   
   return weekday === 7 ? 6 : weekday - 1; // Sunday (7) needs 6 empty cells, Monday (1) needs 0
 };
+
+const calculateLastWeekOffset = (endDate: DateTime) => {
+  const weekday = endDate.weekday; // Luxon: 1 = Monday, 7 = Sunday
+  
+  return weekday === 7 ? 0 : 7 - weekday; // Sunday (7) needs 0 empty cells, Monday (1) needs 6
+}
 
 // Generate heatmap data for the given date range
 const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
@@ -95,6 +112,7 @@ const getGridPosition = (index: number) => {
 
 const heatmapData = ref<IHeatmapDay[]>([]);
 const firstWeekOffset = ref<number>(0);
+const lastWeekOffset = ref<number>(0);
 
 const updateHeatmapData = () => {
   if (props.options.colors) {
@@ -130,6 +148,7 @@ const updateHeatmapData = () => {
 
   heatmapData.value = generateHeatmapData(DateTime.fromISO(startDate), endDate);
   firstWeekOffset.value = calculateFirstWeekOffset(DateTime.fromISO(startDate));
+  lastWeekOffset.value = calculateLastWeekOffset(endDate);
 };
 
 // Watch for prop changes and update heatmap accordingly
