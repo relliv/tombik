@@ -45,7 +45,7 @@
     "@vueuse/core": "^11.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "lucide-vue-next": "^0.453.0",
+    "lucide-vue-next": "^0.454.0",
     "luxon": "^3.5.0",
     "pinia": "^2.2.4",
     "radix-vue": "^1.9.7",
