@@ -41,6 +41,8 @@
     "vue-tsc": "^2.1.6"
   },
   "dependencies": {
+    "@ngeenx/nx-calendar-heatmap-utils": "^1.0.1",
+    "@ngeenx/nx-vue-calendar-heatmap": "^1.0.0",
     "@tabler/icons-vue": "^3.19.0",
     "@vueuse/core": "^11.1.0",
     "class-variance-authority": "^0.7.0",
@@ -51,6 +53,7 @@
     "radix-vue": "^1.9.7",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
+    "tippy.js": "^6.3.7",
     "vue-ellipse-progress": "^2.2.0",
     "vue-router": "^4.4.5"
   }

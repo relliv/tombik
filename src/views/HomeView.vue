@@ -1,54 +1,89 @@
 <template>
   <div class="flex flex-col items-start justify-start gap-5">
     <span>
-      {{startDate}}
+      {{ startDate }}
     </span>
 
-    <CalendarHeatmap :options="{
-      type: 'yearly',
-      startDate: startDate,
-      cellSize: cellSize,
-      hideEmptyDays: false,
-      onClick: onDayClick,
-    }"/>
-
-    <div class="flex flex-row">
-      <CalendarHeatmap :options="{
-        type: 'monthly',
-        startDate: month,
-        cellSize: cellSize,
-        onClick: onDayClick
-      }" v-for="month in months"/>
-    </div>
-    
-    <CalendarHeatmap :options="{
-      type: 'weekly',
-      startDate: startDate,
-      cellSize: cellSize,
-      onClick: onDayClick
-    }"/>
+    <NxCalendarHeatmap :options="options" :data="heatmapData">
+      <template #footerContent>
+        <a href="#"> Footer hint </a>
+      </template>
+    </NxCalendarHeatmap>
   </div>
 </template>
 
 <script setup lang="ts">
-import { IHeatmapDay } from "@/components/features/calendar-heatmap/calendar-heatmap";
-import CalendarHeatmap from "@/components/features/calendar-heatmap/CalendarHeatmap.vue";
+import { onMounted, ref, watch } from "vue";
+
+// calendar libs
+import { NxCalendarHeatmap } from "@ngeenx/nx-vue-calendar-heatmap";
+import {
+  IHeatmapDay,
+  HeatMapCalendarType,
+  ICalendarHeatmapOptions,
+  IHeatmapColor,
+  HeatmapLevelsDirection,
+} from "@ngeenx/nx-calendar-heatmap-utils";
+
+// third party
 import { DateTime } from "luxon";
-import { ref } from "vue";
 
-const startDate = ref("1998-01-01");
-const cellSize = 15;
+const startDate = ref(DateTime.now().startOf("year"));
 
-const heatmapColors = [
-  { min: 0, max: 0, color: "#FFFFFF" },
-]
-
-const months = Array.from({ length: 12 }, (_, i) => {
-  const firstDayOfMonth = DateTime.local().set({ month: i + 1, day: 1 });
-  return firstDayOfMonth.toISODate();
-});
+const heatmapData = ref<IHeatmapDay[]>([]);
 
 const onDayClick = (day: IHeatmapDay) => {
   console.log(`Clicked on ${day.date} with value ${day.count}`);
-}
+};
+
+const generateHeatmapData = (startDate: DateTime) => {
+  let endDate: DateTime = startDate.endOf("year");
+
+  const daysBetween = Math.floor(endDate.diff(startDate, "days").days);
+  const heatmap = [];
+
+  let currentDate = startDate;
+
+  for (let i = 0; i <= daysBetween; i++) {
+    const day: IHeatmapDay = {
+      date: currentDate,
+      count: Math.floor(Math.random() * 101),
+    };
+
+    heatmap.push(day);
+
+    currentDate = currentDate.plus({ days: 1 });
+  }
+
+  return heatmap;
+};
+
+const options = ref<ICalendarHeatmapOptions>({
+  type: HeatMapCalendarType.YEARLY,
+  startDate: startDate.value,
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    heatmapData.value = generateHeatmapData(startDate.value);
+  }, 300);
+});
+
+watch(
+  () => [options, startDate],
+  () => {
+    heatmapData.value = generateHeatmapData(startDate.value);
+
+    options.value = {
+      ...options.value,
+    };
+  }
+);
 </script>
+
+<style lang="scss">
+@import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
+@import "tippy.js/dist/tippy.css";
+
+// @import "../../node_modules/@ngeenx/nx-calendar-heatmap-utils/styles.css";
+</style>
