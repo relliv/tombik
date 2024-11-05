@@ -4,11 +4,17 @@
       {{ startDate }}
     </span>
 
-    <NxCalendarHeatmap :options="options" :data="heatmapData">
-      <template #footerContent>
-        <a href="#"> Footer hint </a>
-      </template>
-    </NxCalendarHeatmap>
+    <div class="flex flex-col gap-6 bg-zinc-900 px-8 pb-8 pt-6 rounded-2xl">
+      <h1 class="text-2xl font-thin text-gray-300 select-none">
+        Activity Calendar
+      </h1>
+
+      <NxCalendarHeatmap :options="options" :data="heatmapData">
+        <template #footerContent>
+          <a href="#"> Footer hint </a>
+        </template>
+      </NxCalendarHeatmap>
+    </div>
   </div>
 </template>
 
