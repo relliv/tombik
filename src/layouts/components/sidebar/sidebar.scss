@@ -9,7 +9,7 @@
                 @apply bg-gray-700 transition-all duration-200 ease-in-out;
 
                 &:hover {
-                    @apply bg-tombik-primary-800;
+                    @apply bg-tombik-primary-800 scale-105;
                 }
 
                 &.active {
