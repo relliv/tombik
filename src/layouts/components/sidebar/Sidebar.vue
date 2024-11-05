@@ -10,18 +10,25 @@
             <Tooltip>
               <TooltipTrigger as-child>
                 <RouterLink :to="menuItem.route">
-                  <Button class="p-3 rounded-full size-12" :class="{
-                    active: menuItem.isActive,
-                    disabled: menuItem.isDisabled,
-                  }" @click="onMenuItemClick($event, menuItem)">
+                  <Button
+                    class="p-3 rounded-full size-12"
+                    :class="{
+                      active: menuItem.isActive,
+                      disabled: menuItem.isDisabled,
+                    }"
+                    @click="onMenuItemClick($event, menuItem)"
+                  >
                     <component :is="menuItem.icon" />
                   </Button>
                 </RouterLink>
               </TooltipTrigger>
 
-              <TooltipContent side="right" :class="{
-                disabled: menuItem.isDisabled,
-              }">
+              <TooltipContent
+                side="right"
+                :class="{
+                  disabled: menuItem.isDisabled,
+                }"
+              >
                 <p>
                   {{ menuItem.name }}
                 </p>
@@ -32,9 +39,9 @@
       </div>
 
       <!-- Bottom Container -->
-       <div class="bottom-container">
+      <div class="bottom-container">
         <!-- To be implemented -->
-       </div>
+      </div>
     </div>
   </TooltipProvider>
 </template>
@@ -49,7 +56,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { IconHome, IconHourglass, IconLaurelWreath } from "@tabler/icons-vue";
+import {
+  IconHome,
+  IconHourglass,
+  IconLaurelWreath,
+  IconSettings,
+} from "@tabler/icons-vue";
 import { RouterLink } from "vue-router";
 
 const menuItems = ref(<ISidebarMenu[]>[
@@ -69,6 +81,11 @@ const menuItems = ref(<ISidebarMenu[]>[
     icon: IconLaurelWreath,
     route: "/example",
     isDisabled: true,
+  },
+  {
+    name: "Settings",
+    icon: IconSettings,
+    route: "/settings",
   },
 ]);
 
