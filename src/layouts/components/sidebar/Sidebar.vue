@@ -6,7 +6,7 @@
         <div class="logo">TK</div>
 
         <ul>
-          <li v-for="menuItem in menuItems" :key="menuItem.name">
+          <li v-for="menuItem in topMenuItems" :key="menuItem.name">
             <Tooltip>
               <TooltipTrigger as-child>
                 <RouterLink :to="menuItem.route">
@@ -40,7 +40,35 @@
 
       <!-- Bottom Container -->
       <div class="bottom-container">
-        <!-- To be implemented -->
+        <ul>
+          <li v-for="menuItem in bottomMenuItems" :key="menuItem.name">
+            <Tooltip>
+              <TooltipTrigger as-child>
+                <Button
+                  class="p-3 rounded-full size-12"
+                  :class="{
+                    active: menuItem.isActive,
+                    disabled: menuItem.isDisabled,
+                  }"
+                  @click="onBottomMenuItemClick($event, menuItem)"
+                >
+                  <component :is="menuItem.icon" />
+                </Button>
+              </TooltipTrigger>
+
+              <TooltipContent
+                side="right"
+                :class="{
+                  disabled: menuItem.isDisabled,
+                }"
+              >
+                <p>
+                  {{ menuItem.name }}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </li>
+        </ul>
       </div>
     </div>
   </TooltipProvider>
@@ -61,10 +89,11 @@ import {
   IconHourglass,
   IconLaurelWreath,
   IconSettings,
+  IconBrightnessFilled,
 } from "@tabler/icons-vue";
 import { RouterLink } from "vue-router";
 
-const menuItems = ref(<ISidebarMenu[]>[
+const topMenuItems = ref(<ISidebarMenu[]>[
   {
     name: "Dashboard",
     icon: IconHome,
@@ -89,6 +118,13 @@ const menuItems = ref(<ISidebarMenu[]>[
   },
 ]);
 
+const bottomMenuItems = ref(<ISidebarMenu[]>[
+  {
+    name: "Toggle Theme",
+    icon: IconBrightnessFilled,
+  },
+]);
+
 const props = defineProps({
   isSidebarOpen: Boolean,
 });
@@ -101,9 +137,20 @@ const onMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
     return;
   }
 
-  menuItems.value?.forEach((item: ISidebarMenu) => {
+  topMenuItems.value?.forEach((item: ISidebarMenu) => {
     item.isActive = item.name === menuItem.name;
   });
+};
+
+const onBottomMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
+  if (menuItem.isDisabled) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    return;
+  }
+
+  // TODO: Implement
 };
 
 defineComponent({
