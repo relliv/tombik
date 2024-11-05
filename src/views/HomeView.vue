@@ -61,6 +61,7 @@ const generateHeatmapData = (startDate: DateTime) => {
 const options = ref<ICalendarHeatmapOptions>({
   type: HeatMapCalendarType.YEARLY,
   startDate: startDate.value,
+  onClick: (day: IHeatmapDay) => onDayClick(day),
 });
 
 onMounted(() => {
