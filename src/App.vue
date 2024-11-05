@@ -8,7 +8,8 @@
       class="absolute z-50 opacity-50 hover:opacity-100"
     >
       <div class="flex flex-col select-none min-w-[150px]">
-        <button
+        <CircularTimer />
+        <!-- <button
           class="float-right mb-2 border rounded-full size-7 border-gray-50"
           @click="isDebuggerBubbleVisible = !isDebuggerBubbleVisible"
         >
@@ -26,7 +27,7 @@
           <li>progress:{{ timerStore.progress.toFixed(1) }}</li>
           <li>increment:{{ timerStore.increment.toFixed(1) }}</li>
           <li>finishReason:{{ timerStore.finishReason }}</li>
-        </ul>
+        </ul> -->
       </div>
     </FloatingContainer>
 
@@ -41,6 +42,7 @@ import { ref, watch } from "vue";
 import FloatingContainer from "@/components/ui/floating-container/FloatingContainer.vue";
 import { useTimerStore } from "@/shared/stores/timer.store";
 import Toaster from "@/components/ui/toast/Toaster.vue";
+import CircularTimer from "@/components/features/timer/CircularTimer.vue";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { IFinishReason } from "./shared/models/timer/timer";
 
@@ -62,11 +64,11 @@ watch(
   (newValue: string) => {
     let title = null,
       message = null;
-      
+
     if (newValue === IFinishReason.FINISHED) {
       title = "Timer Finished";
       message = "Well done!";
-      
+
       toast({
         title,
         description: message,
