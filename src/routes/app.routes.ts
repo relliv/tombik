@@ -1,4 +1,5 @@
 import { createMemoryHistory, createRouter } from "vue-router";
+import Cookies from "js-cookie";
 
 // layouts
 import DashboardLayout from "@/layouts/DashboardLayout.vue";
@@ -13,6 +14,13 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
+    beforeEnter: (to,from,next:any) => {
+      if (!Cookies.get("username")) {
+        next({ name: "splash" });
+      } else { 
+        next();
+      }
+    },
     children: [
       {
         path: "",
@@ -29,12 +37,12 @@ const routes = [
         name: "settings",
         component: SettingsView,
       },
-      {
-        path: "/splash",
-        name: "splash",
-        component: SplashView,
-      },
     ],
+  },
+  {
+    path: '/splash',
+    name: 'splash',
+    component: SplashView,
   },
 ];
 
