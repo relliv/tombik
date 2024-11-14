@@ -47,7 +47,9 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/routes/app.routes';
 import { templateRef } from '@vueuse/core';
+import Cookies from 'js-cookie';
 import { onBeforeUnmount, ref, watch } from 'vue';
 import { onMounted } from 'vue';
 
@@ -202,6 +204,10 @@ function vanishAndSubmit(): void {
     const maxX = Math.max(...newDataRef.value.map(({ x }) => x));
     animate(maxX);
     emit("submit", vanishingText.value);
+    Cookies.set("username", vanishingText.value);
+    setTimeout(() => {
+      router.push({ name: "home" });
+    }, 1000);
   }
 }
 
