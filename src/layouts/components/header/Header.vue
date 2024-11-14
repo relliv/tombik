@@ -13,7 +13,7 @@
 
         <!-- Search -->
         <div class="search">
-            <Input placeholder="Search..."/>
+            <Input placeholder="Search..." />
         </div>
     </header>
 </template>
@@ -21,8 +21,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Input } from "@/components/ui/input"
+import Cookies from "js-cookie";
 
-const name = ref("relliv");
+const name = Cookies.get('username');
 </script>
 
 <style scoped>
