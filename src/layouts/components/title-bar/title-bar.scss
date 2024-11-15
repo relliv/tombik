@@ -1,0 +1,16 @@
+.title-bar {
+    @apply flex flex-row justify-between w-full h-12
+        items-center px-4;
+
+    // make drraggable
+    -webkit-app-region: drag;
+
+    .left,
+    .right {
+        @apply flex flex-row w-1/2 items-end justify-end;
+    }
+
+    .title {
+        @apply text-base font-bold;
+    }
+}
