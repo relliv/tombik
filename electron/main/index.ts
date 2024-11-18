@@ -62,6 +62,7 @@ async function createWindow() {
     },
   });
 
+
   if (VITE_DEV_SERVER_URL) {
     // #298
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -70,6 +71,31 @@ async function createWindow() {
   } else {
     win.loadFile(indexHtml);
   }
+
+  setupWindowControls();
+}
+
+function setupWindowControls() {
+  ipcMain.on('window-minimize', () => win.minimize());
+  ipcMain.on('window-maximize', () => {
+    if (win.isMaximized()) {
+      win.unmaximize();
+    } else {
+      win.maximize();
+    }
+  });
+  
+  ipcMain.on('window-close', () => win.close());
+  
+  ipcMain.handle('is-window-maximized', () => win.isMaximized() ?? false);
+
+  win.on('maximize', () => {
+    win.webContents.send('window-maximized-change', true);
+  });
+
+  win.on('unmaximize', () => {
+    win.webContents.send('window-maximized-change', false);
+  });
 
   // Test actively push message to the Electron-Renderer
   win.webContents.on("did-finish-load", () => {

@@ -24,6 +24,12 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   // You can expose other APTs you need here.
   sendNotification: (title: string, message: string): void =>
     ipcRenderer.send("show-notification", { title, message }),
+
+  maximizeWindow: () => ipcRenderer.send("window-maximize"),
+  minimizeWindow: () => ipcRenderer.send("window-minimize"),
+  closeWindow: () => ipcRenderer.send("window-close"),
+  isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
+  onMaximizedChange: (callback:any) => ipcRenderer.on('window-maximized-change', callback),
 });
 
 // --------- Preload scripts loading ---------
