@@ -2,13 +2,16 @@
     @apply flex flex-row justify-between w-full h-12 z-50 items-center px-4;
 
     // make drraggable
-    // -webkit-app-region: drag;
+    -webkit-app-region: drag;
 
     .left,
     .right {
         @apply flex flex-row w-1/2 items-end gap-2.5 justify-end;
+
         .action {
             @apply hover:text-gray-500 cursor-pointer duration-200 *:size-5;
+
+            -webkit-app-region: none !important;
         }
     }
 
