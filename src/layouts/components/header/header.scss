@@ -2,7 +2,7 @@ header {
     @apply flex flex-row items-center justify-between w-full pb-5 pt-3;
 
     .greeting {
-        @apply flex flex-col gap-1;
+        @apply flex flex-col gap-1 relative;
 
         .name {
             @apply text-3xl text-white;
@@ -10,6 +10,10 @@ header {
 
         .message {
             @apply text-base font-light text-gray-500;
+        }
+
+        .edit{
+            @apply absolute -top-5 -right-6 text-gray-200 cursor-pointer hover:text-gray-500 *:size-4 border-b hover:border-gray-500 duration-200;  
         }
     }
 
