@@ -1,44 +1,81 @@
 <template>
-  <form :class="[
-    'relative mx-auto h-12 w-full max-w-xl overflow-hidden rounded-full bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200 dark:bg-zinc-800',
-    vanishingText && 'bg-gray-50',
-  ]" @submit.prevent="handleSubmit">
+  <form
+    :class="[
+      'relative mx-auto h-12 w-full max-w-xl overflow-hidden rounded-full bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200 dark:bg-zinc-800',
+      vanishingText && 'bg-gray-50',
+    ]"
+    @submit.prevent="handleSubmit"
+  >
     <!-- Canvas Element -->
-    <canvas ref="canvasRef" :class="[
-      'pointer-events-none absolute left-2 top-[20%] origin-top-left scale-50 pr-20 text-base invert sm:left-8 dark:invert-0',
-      animating ? 'opacity-100' : 'opacity-0',
-    ]" />
+    <canvas
+      ref="canvasRef"
+      :class="[
+        'pointer-events-none absolute left-2 top-[20%] origin-top-left scale-50 pr-20 text-base invert sm:left-8 dark:invert-0',
+        animating ? 'opacity-100' : 'opacity-0',
+      ]"
+    />
 
     <!-- Text Input -->
-    <input ref="inputRef" v-model="vanishingText" :disabled="animating" type="text"
+    <input
+      ref="inputRef"
+      v-model="vanishingText"
+      :disabled="animating"
+      type="text"
       class="relative z-50 size-full rounded-full border-none bg-transparent pl-4 pr-20 text-sm text-black focus:outline-none focus:ring-0 sm:pl-10 sm:text-base dark:text-white"
-      :class="{ 'text-transparent dark:text-transparent': animating }" @keydown.enter="handleKeyDown" />
+      :class="{ 'text-transparent dark:text-transparent': animating }"
+      @keydown.enter="handleKeyDown"
+    />
 
     <!-- Submit Button -->
-    <button :disabled="!vanishingText" type="submit"
-      class="absolute right-2 top-1/2 z-50 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-black transition duration-200 disabled:bg-gray-100 dark:bg-zinc-900 dark:disabled:bg-zinc-700">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="size-4 text-gray-300">
+    <button
+      :disabled="!vanishingText"
+      type="submit"
+      class="absolute right-2 top-1/2 z-50 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-black transition duration-200 disabled:bg-gray-100 dark:bg-zinc-900 dark:disabled:bg-zinc-700"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="size-4 text-gray-300"
+      >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M5 12l14 0" :style="{
-          strokeDasharray: '50%',
-          strokeDashoffset: vanishingText ? '0' : '50%',
-          transition: 'stroke-dashoffset 0.3s linear',
-        }" />
+        <path
+          d="M5 12l14 0"
+          :style="{
+            strokeDasharray: '50%',
+            strokeDashoffset: vanishingText ? '0' : '50%',
+            transition: 'stroke-dashoffset 0.3s linear',
+          }"
+        />
         <path d="M13 18l6 -6" />
         <path d="M13 6l6 6" />
       </svg>
     </button>
 
     <!-- Placeholder Text -->
-    <div class="pointer-events-none absolute inset-0 flex items-center rounded-full">
-      <Transition v-show="!vanishingText" mode="out-in" enter-active-class="transition duration-300 ease-out"
-        leave-active-class="transition duration-300 ease-in" enter-from-class="opacity-0 translate-y-4"
-        enter-to-class="opacity-100 translate-y-0" leave-from-class="opacity-100 translate-y-0"
-        leave-to-class="opacity-0 -translate-y-4">
-        <p :key="currentPlaceholder"
-          class="w-[calc(100%-2rem)] truncate pl-4 text-left text-sm font-normal text-neutral-500 sm:pl-10 sm:text-base dark:text-zinc-500">
+    <div
+      class="pointer-events-none absolute inset-0 flex items-center rounded-full"
+    >
+      <Transition
+        v-show="!vanishingText"
+        mode="out-in"
+        enter-active-class="transition duration-300 ease-out"
+        leave-active-class="transition duration-300 ease-in"
+        enter-from-class="opacity-0 translate-y-4"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-4"
+      >
+        <p
+          :key="currentPlaceholder"
+          class="w-[calc(100%-2rem)] truncate pl-4 text-left text-sm font-normal text-neutral-500 sm:pl-10 sm:text-base dark:text-zinc-500"
+        >
           {{ placeholders[currentPlaceholder] }}
         </p>
       </Transition>
@@ -47,11 +84,11 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/routes/app.routes';
-import { templateRef } from '@vueuse/core';
-import Cookies from 'js-cookie';
-import { onBeforeUnmount, ref, watch } from 'vue';
-import { onMounted } from 'vue';
+import router from "@/routes/app.routes";
+import { templateRef } from "@vueuse/core";
+import localForage from "localforage";
+import { onBeforeUnmount, ref, watch } from "vue";
+import { onMounted } from "vue";
 import confetti from "canvas-confetti";
 
 // Function to trigger the confetti side cannons
@@ -132,7 +169,8 @@ onMounted(() => {
 
 function changePlaceholder(): void {
   intervalRef.value = window.setInterval(() => {
-    currentPlaceholder.value = (currentPlaceholder.value + 1) % props.placeholders.length;
+    currentPlaceholder.value =
+      (currentPlaceholder.value + 1) % props.placeholders.length;
   }, 3000);
 }
 
@@ -171,11 +209,17 @@ function draw(): void {
     let i = 4 * t * 800;
     for (let n = 0; n < 800; n++) {
       let e = i + 4 * n;
-      if (pixelData[e] !== 0 && pixelData[e + 1] !== 0 && pixelData[e + 2] !== 0) {
+      if (
+        pixelData[e] !== 0 &&
+        pixelData[e + 1] !== 0 &&
+        pixelData[e + 2] !== 0
+      ) {
         newData.push({
           x: n,
           y: t,
-          color: `rgba(${pixelData[e]}, ${pixelData[e + 1]}, ${pixelData[e + 2]}, ${pixelData[e + 3]})`,
+          color: `rgba(${pixelData[e]}, ${pixelData[e + 1]}, ${
+            pixelData[e + 2]
+          }, ${pixelData[e + 3]})`,
         });
       }
     }
@@ -233,14 +277,14 @@ function handleKeyDown(e: KeyboardEvent): void {
   }
 }
 
-function vanishAndSubmit(): void {
+async function vanishAndSubmit(): Promise<void> {
   animating.value = true;
   draw();
   if (vanishingText.value) {
     const maxX = Math.max(...newDataRef.value.map(({ x }) => x));
     animate(maxX);
     emit("submit", vanishingText.value);
-    Cookies.set("username", vanishingText.value);
+    await localForage.setItem("username", vanishingText.value);
     confetiEffect();
     setTimeout(() => {
       router.push({ name: "home" });
@@ -248,8 +292,8 @@ function vanishAndSubmit(): void {
   }
 }
 
-function handleSubmit(): void {
-  vanishAndSubmit();
+async function handleSubmit(): Promise<void> {
+  await vanishAndSubmit();
 }
 
 // Watch for value changes

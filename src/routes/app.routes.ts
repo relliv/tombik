@@ -1,5 +1,5 @@
 import { createMemoryHistory, createRouter } from "vue-router";
-import Cookies from "js-cookie";
+import localForage from "localforage";
 
 // layouts
 import DashboardLayout from "@/layouts/DashboardLayout.vue";
@@ -14,10 +14,10 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    beforeEnter: (to,from,next:any) => {
-      if (!Cookies.get("username")) {
+    beforeEnter: async (to, from, next: any) => {
+      if (!(await localForage.getItem("username"))) {
         next({ name: "splash" });
-      } else { 
+      } else {
         next();
       }
     },
@@ -40,8 +40,8 @@ const routes = [
     ],
   },
   {
-    path: '/splash',
-    name: 'splash',
+    path: "/splash",
+    name: "splash",
     component: SplashView,
   },
 ];

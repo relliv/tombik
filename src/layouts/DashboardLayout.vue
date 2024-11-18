@@ -3,8 +3,8 @@
     <Sidebar />
 
     <main>
-      <Header/>
-      
+      <Header />
+
       <router-view />
     </main>
   </div>
