@@ -56,7 +56,7 @@
     "@vueuse/motion": "^2.2.6",
     "canvas-confetti": "^1.9.3",
     "localforage": "^1.10.0",
-    "lucide-vue-next": "^0.456.0",
+    "lucide-vue-next": "^0.462.0",
     "luxon": "^3.5.0",
     "pinia": "^2.2.4",
     "radix-vue": "^1.9.7",
