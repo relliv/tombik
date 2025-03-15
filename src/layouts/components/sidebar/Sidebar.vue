@@ -134,8 +134,6 @@ onMounted(() => {
   const storedMenuItemName = localStorage.getItem("activeMenuItem");
   const storedSubRoute = localStorage.getItem("activeSubRoute");
 
-  console.log(storedSubRoute);
-
   if (storedMenuItemName) {
     sidebarStore.topMenuItems?.forEach((item: ISidebarMenu) => {
       item.isActive = item.name === storedMenuItemName;

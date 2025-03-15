@@ -21,8 +21,6 @@ const projectsStore = useProjectsStore();
 const route = useRoute();
 const path = ref(route.query.path || "");
 
-console.log(route.query);
-
 onMounted(async () => {
   if (projectsStore.projectFolders.length === 0) {
     const projectFolders = await ProjectService.loadProjectFolders();
