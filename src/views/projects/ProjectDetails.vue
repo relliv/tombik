@@ -12,6 +12,7 @@ import { useProjectsStore } from "@/shared/stores/projects.store";
 import KanbanBoard from "@/components/features/kanban/KanbanBoard.vue";
 import { useSidebarStore } from "@/shared/stores/sidebar.store";
 import ISidebarMenu from "@/shared/models/layout/sidebar";
+import { ProjectService } from "@/shared/services/project.service";
 
 const sidebarStore = useSidebarStore();
 const appStore = useAppStore();
@@ -23,6 +24,12 @@ const path = ref(route.query.path || "");
 console.log(route.query);
 
 onMounted(async () => {
+  if (projectsStore.projectFolders.length === 0) {
+    const projectFolders = await ProjectService.loadProjectFolders();
+
+    projectsStore.setProjects(projectFolders);
+  }
+
   const fullPath = path.value;
 
   appStore.setPageTitle("Project", "Let's get started");

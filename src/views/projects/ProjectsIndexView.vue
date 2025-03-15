@@ -168,6 +168,7 @@ import { RouterLink } from "vue-router";
 import { useProjectsStore } from "@/shared/stores/projects.store";
 import { useSidebarStore } from "@/shared/stores/sidebar.store";
 import ISidebarMenu from "@/shared/models/layout/sidebar";
+import { ProjectService } from "@/shared/services/project.service";
 
 const sidebarStore = useSidebarStore();
 const appStore = useAppStore();
@@ -276,12 +277,6 @@ const table = useVueTable({
   },
 });
 
-const loadProjectFolders = async () => {
-  folders.value = await (window as any).ipcRenderer.getWorkspaceFolders();
-
-  projectsStore.setProjects(folders.value);
-};
-
 const createProject = async (projectName: string) => {
   if (projectName) {
     const success = await (window as any).ipcRenderer.createNewProject(
@@ -289,7 +284,9 @@ const createProject = async (projectName: string) => {
     );
 
     if (success) {
-      loadProjectFolders();
+      const projectFolders = await ProjectService.loadProjectFolders();
+
+      projectsStore.setProjects(projectFolders);
     } else {
       alert("Project creation failed or already exists.");
     }
@@ -299,7 +296,9 @@ const createProject = async (projectName: string) => {
 };
 
 onMounted(async () => {
-  loadProjectFolders();
+  const projectFolders = await ProjectService.loadProjectFolders();
+
+  projectsStore.setProjects(projectFolders);
 
   appStore.setPageTitle("Projects", "Manage your projects");
 
