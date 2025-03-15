@@ -130,6 +130,7 @@ const bottomMenuItems = ref(<ISidebarMenu[]>[
   {
     name: "Toggle Theme",
     icon: IconBrightnessFilled,
+    isDisabled: true,
   },
 ]);
 
