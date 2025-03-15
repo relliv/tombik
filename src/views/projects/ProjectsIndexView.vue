@@ -6,11 +6,20 @@
 
       <Dialog>
         <DialogTrigger>
-          <button
-            class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md"
-          >
-            <FolderPlus /> Create New Project
-          </button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <button
+                  class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md"
+                >
+                  <FolderPlus /> Create New Project
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Create new project for next tasks</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -27,6 +36,7 @@
       </Dialog>
     </div>
 
+    <!-- Table -->
     <div class="rounded-md border">
       <Table>
         <TableHeader>
@@ -143,6 +153,12 @@ import {
 } from "@tanstack/vue-table";
 import { ChevronDown, ChevronsUpDown, FolderPlus } from "lucide-vue-next";
 import { useAppStore } from "@/shared/stores/app.store";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const appStore = useAppStore();
 
