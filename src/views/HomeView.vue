@@ -20,6 +20,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
+import localForage from "localforage";
+
+import { useAppStore } from "@/shared/stores/app.store";
 
 // calendar libs
 import { NxCalendarHeatmap } from "@ngeenx/nx-vue-calendar-heatmap";
@@ -33,6 +36,8 @@ import {
 
 // third party
 import { DateTime } from "luxon";
+
+const appStore = useAppStore();
 
 const startDate = ref(DateTime.now().startOf("year"));
 
@@ -70,10 +75,14 @@ const options = ref<ICalendarHeatmapOptions>({
   onClick: (day: IHeatmapDay) => onDayClick(day),
 });
 
-onMounted(() => {
+onMounted(async () => {
   setTimeout(() => {
     heatmapData.value = generateHeatmapData(startDate.value);
   }, 300);
+
+  const username = (await localForage.getItem("username")) as string;
+
+  appStore.setPageTitle(`Hello, ${username}.`);
 });
 
 watch(

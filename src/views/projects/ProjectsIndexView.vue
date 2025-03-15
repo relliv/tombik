@@ -3,7 +3,9 @@
     <h1>Projects</h1>
 
     <Dialog>
-      <DialogTrigger> Create New Project</DialogTrigger>
+      <DialogTrigger>
+        <Button> Create New Project </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
@@ -133,6 +135,9 @@ import {
   useVueTable,
 } from "@tanstack/vue-table";
 import { ChevronDown, ChevronsUpDown } from "lucide-vue-next";
+import { useAppStore } from "@/shared/stores/app.store";
+
+const appStore = useAppStore();
 
 const folders = ref<IBasicFolder[]>([]);
 const projectName = ref("");
@@ -248,6 +253,8 @@ const createProject = async (projectName: string) => {
 
 onMounted(async () => {
   loadProjectFolders();
+
+  appStore.setPageTitle("Projects");
 });
 </script>
 
