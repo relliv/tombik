@@ -164,6 +164,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import DropdownAction from "@/components/features/project/DropdownAction.vue";
+import { RouterLink } from "vue-router";
 
 const appStore = useAppStore();
 
@@ -198,7 +199,15 @@ const columns = [
   columnHelper.accessor("name", {
     enablePinning: true,
     header: "Name",
-    cell: ({ row }) => h("div", row.getValue("name")),
+    cell: ({ row }) =>
+      h(
+        RouterLink,
+        {
+          to: `/projects/details?path=${row.original.fullPath}`,
+          class: "text-blue-500 hover:underline",
+        },
+        row.getValue("name")
+      ),
   }),
   columnHelper.display({
     id: "actions",

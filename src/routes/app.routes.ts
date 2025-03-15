@@ -11,6 +11,7 @@ import TimerView from "@/views/TimerView.vue";
 import SettingsView from "@/views/SettingsView.vue";
 import SplashView from "@/views/SplashView.vue";
 import ProjectsIndexView from "@/views/projects/ProjectsIndexView.vue";
+import ProjectDetails from "@/views/projects/ProjectDetails.vue";
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
             path: "",
             name: "projects_index",
             component: ProjectsIndexView,
+          },
+          {
+            path: ":id",
+            name: "projects_show",
+            component: ProjectDetails,
           },
         ],
       },
