@@ -17,6 +17,8 @@
           <span>Open In File Manager</span>
         </DropdownMenuItem>
 
+        <DropdownMenuSeparator />
+
         <!-- Delete -->
         <DropdownMenuItem>
           <span>Delete</span>
