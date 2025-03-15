@@ -165,8 +165,10 @@ import {
 } from "@/components/ui/tooltip";
 import DropdownAction from "@/components/features/project/DropdownAction.vue";
 import { RouterLink } from "vue-router";
+import { useProjectsStore } from "@/shared/stores/projects.stor";
 
 const appStore = useAppStore();
+const projectsStore = useProjectsStore();
 
 const isCreateFolderDialogOpen = ref(false);
 const folders = ref<IBasicFolder[]>([]);
@@ -273,6 +275,8 @@ const table = useVueTable({
 
 const loadProjectFolders = async () => {
   folders.value = await (window as any).ipcRenderer.getWorkspaceFolders();
+
+  projectsStore.setProjects(folders.value);
 };
 
 const createProject = async (projectName: string) => {
