@@ -134,10 +134,6 @@ const bottomMenuItems = ref(<ISidebarMenu[]>[
   },
 ]);
 
-const props = defineProps({
-  isSidebarOpen: Boolean,
-});
-
 const router = useRouter();
 
 const onMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
