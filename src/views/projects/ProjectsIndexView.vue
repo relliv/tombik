@@ -166,7 +166,10 @@ import {
 import DropdownAction from "@/components/features/project/DropdownAction.vue";
 import { RouterLink } from "vue-router";
 import { useProjectsStore } from "@/shared/stores/projects.store";
+import { useSidebarStore } from "@/shared/stores/sidebar.store";
+import ISidebarMenu from "@/shared/models/layout/sidebar";
 
+const sidebarStore = useSidebarStore();
 const appStore = useAppStore();
 const projectsStore = useProjectsStore();
 
@@ -299,6 +302,13 @@ onMounted(async () => {
   loadProjectFolders();
 
   appStore.setPageTitle("Projects", "Manage your projects");
+
+  sidebarStore.setCurrentMenuItem(
+    sidebarStore.topMenuItems.find(
+      (item) => item.name === "Projects"
+    ) as ISidebarMenu,
+    null
+  );
 });
 </script>
 

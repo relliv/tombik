@@ -39,7 +39,10 @@ export const useSidebarStore = defineStore("sidebar", () => {
 
   const currentMenuItem = ref<ISidebarMenu | null>(null);
 
-  const setCurrentMenuItem = (menuItem: ISidebarMenu) => {
+  const setCurrentMenuItem = (
+    menuItem: ISidebarMenu,
+    subRoute: string | null = null
+  ) => {
     currentMenuItem.value = menuItem;
 
     // Store the active menu item in local storage
@@ -48,6 +51,14 @@ export const useSidebarStore = defineStore("sidebar", () => {
     // Navigate to the menu item's route
     if (menuItem.route) {
       router.push(menuItem.route);
+    }
+
+    if (subRoute) {
+      router.push(subRoute);
+
+      localStorage.setItem("activeSubRoute", subRoute);
+    } else {
+      localStorage.removeItem("activeSubRoute");
     }
   };
 

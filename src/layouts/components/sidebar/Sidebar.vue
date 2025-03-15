@@ -132,12 +132,17 @@ const onBottomMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
 
 onMounted(() => {
   const storedMenuItemName = localStorage.getItem("activeMenuItem");
+  const storedSubRoute = localStorage.getItem("activeSubRoute");
+
+  console.log(storedSubRoute);
 
   if (storedMenuItemName) {
     sidebarStore.topMenuItems?.forEach((item: ISidebarMenu) => {
       item.isActive = item.name === storedMenuItemName;
 
-      if (item.isActive && item.route) {
+      if (storedSubRoute) {
+        router.push(storedSubRoute);
+      } else if (item.isActive && item.route) {
         router.push(item.route);
       }
     });
