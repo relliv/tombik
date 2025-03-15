@@ -1,3 +1,4 @@
+import { path } from "path";
 import { createMemoryHistory, createRouter } from "vue-router";
 import localForage from "localforage";
 
@@ -9,6 +10,7 @@ import HomeView from "@/views/HomeView.vue";
 import TimerView from "@/views/TimerView.vue";
 import SettingsView from "@/views/SettingsView.vue";
 import SplashView from "@/views/SplashView.vue";
+import ProjectsIndexView from "@/views/projects/ProjectsIndexView.vue";
 
 const routes = [
   {
@@ -31,6 +33,17 @@ const routes = [
         path: "/timer",
         name: "timer",
         component: TimerView,
+      },
+      {
+        path: "/projects",
+        name: "projects",
+        children: [
+          {
+            path: "",
+            name: "projects_index",
+            component: ProjectsIndexView,
+          },
+        ],
       },
       {
         path: "/settings",

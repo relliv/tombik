@@ -90,6 +90,7 @@ import {
   IconLaurelWreath,
   IconSettings,
   IconBrightnessFilled,
+  IconSitemap,
 } from "@tabler/icons-vue";
 import { RouterLink } from "vue-router";
 
@@ -104,6 +105,12 @@ const topMenuItems = ref(<ISidebarMenu[]>[
     name: "Timer",
     icon: IconHourglass,
     route: "/timer",
+  },
+  {
+    name: "Projects",
+    icon: IconSitemap,
+    route: "/projects",
+    isDisabled: false,
   },
   {
     name: "example",
