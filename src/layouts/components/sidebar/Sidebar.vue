@@ -6,7 +6,10 @@
         <div class="logo">TK</div>
 
         <ul>
-          <li v-for="menuItem in topMenuItems" :key="menuItem.name">
+          <li
+            v-for="menuItem in sidebarStore.topMenuItems"
+            :key="menuItem.name"
+          >
             <Tooltip>
               <TooltipTrigger as-child>
                 <RouterLink :to="menuItem.route">
@@ -94,37 +97,9 @@ import {
   IconSitemap,
 } from "@tabler/icons-vue";
 import { RouterLink } from "vue-router";
+import { useSidebarStore } from "@/shared/stores/sidebar.store";
 
-const topMenuItems = ref(<ISidebarMenu[]>[
-  {
-    name: "Dashboard",
-    icon: IconHome,
-    route: "/",
-    isActive: true,
-  },
-  {
-    name: "Timer",
-    icon: IconHourglass,
-    route: "/timer",
-  },
-  {
-    name: "Projects",
-    icon: IconSitemap,
-    route: "/projects",
-    isDisabled: false,
-  },
-  // {
-  //   name: "example",
-  //   icon: IconLaurelWreath,
-  //   route: "/example",
-  //   isDisabled: true,
-  // },
-  {
-    name: "Settings",
-    icon: IconSettings,
-    route: "/settings",
-  },
-]);
+const sidebarStore = useSidebarStore();
 
 const bottomMenuItems = ref(<ISidebarMenu[]>[
   {
@@ -144,17 +119,11 @@ const onMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
     return;
   }
 
-  topMenuItems.value?.forEach((item: ISidebarMenu) => {
+  sidebarStore.topMenuItems?.forEach((item: ISidebarMenu) => {
     item.isActive = item.name === menuItem.name;
   });
 
-  // Store the active menu item in local storage
-  localStorage.setItem("activeMenuItem", menuItem.name);
-
-  // Navigate to the menu item's route
-  if (menuItem.route) {
-    router.push(menuItem.route);
-  }
+  sidebarStore.setCurrentMenuItem(menuItem);
 };
 
 const onBottomMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
@@ -171,7 +140,7 @@ const onBottomMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
 onMounted(() => {
   const storedMenuItemName = localStorage.getItem("activeMenuItem");
   if (storedMenuItemName) {
-    topMenuItems.value?.forEach((item: ISidebarMenu) => {
+    sidebarStore.topMenuItems?.forEach((item: ISidebarMenu) => {
       item.isActive = item.name === storedMenuItemName;
       if (item.isActive && item.route) {
         router.push(item.route);
