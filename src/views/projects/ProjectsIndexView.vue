@@ -4,13 +4,14 @@
     <div class="flex flex-row justify-between items-center">
       <span class="text-gray-500"> {{ folders.length }} Projects </span>
 
-      <Dialog>
+      <Dialog :open="isCreateFolderDialogOpen">
         <DialogTrigger>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
                 <button
                   class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md"
+                  @click="isCreateFolderDialogOpen = true"
                 >
                   <FolderPlus /> Create New Project
                 </button>
@@ -23,14 +24,14 @@
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle class="mb-5">Create New Project</DialogTitle>
             <DialogDescription>
-              <Input v-model="projectName" placeholder="Project Name" />s
+              <Input v-model="projectName" placeholder="Project Name" />
             </DialogDescription>
           </DialogHeader>
 
           <DialogFooter @click="createProject(projectName)">
-            Save changes
+            Create
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -166,6 +167,7 @@ import DropdownAction from "@/components/features/project/DropdownAction.vue";
 
 const appStore = useAppStore();
 
+const isCreateFolderDialogOpen = ref(false);
 const folders = ref<IBasicFolder[]>([]);
 const projectName = ref("");
 
@@ -275,6 +277,8 @@ const createProject = async (projectName: string) => {
     } else {
       alert("Project creation failed or already exists.");
     }
+
+    isCreateFolderDialogOpen.value = false;
   }
 };
 
