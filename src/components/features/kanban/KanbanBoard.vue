@@ -37,9 +37,9 @@
           <!-- Column Content -->
           <Container
             group-name="col"
-            @drop="(e) => onCardDrop(column.id, e)"
-            @drag-start="(e) => log('drag start', e)"
-            @drag-end="(e) => log('drag end', e)"
+            @drop="(e: any) => onCardDrop(column.id, e)"
+            @drag-start="(e: any) => log('drag start', e)"
+            @drag-end="(e: any) => log('drag end', e)"
             :get-child-payload="getCardPayload(column.id)"
             drag-class="task-ghost"
             drop-class="card-ghost-drop"
@@ -100,7 +100,7 @@
             type="button"
             data-testid="dismiss-button"
             class="rounded-md mb-6 w-full bg-gray-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-            @click="() => (isTaskDetailsDrawerOpen.value = false)"
+            @click="() => (isTaskDetailsDrawerOpen = false)"
           >
             Click to close
           </button>
@@ -119,7 +119,7 @@ import {
   DrawerRoot,
 } from "vaul-vue";
 import { Container, Draggable } from "vue3-smooth-dnd";
-import { applyDrag, generateItems } from "../../shared/utils/array";
+import { applyDrag, generateItems } from "@/shared/utils/array.util";
 import { v4 as uuidv4 } from "uuid";
 import { ref, reactive } from "vue";
 import { Plus, Check } from "lucide-vue-next";
@@ -137,7 +137,7 @@ const scene = reactive({
   props: {
     orientation: "horizontal",
   },
-  columns: generateItems(4, (i) => ({
+  columns: generateItems(4, (i: any) => ({
     id: uuidv4(),
     type: "container",
     name: columnNames[i],
@@ -145,7 +145,7 @@ const scene = reactive({
       orientation: "vertical",
       className: "card-container",
     },
-    tasks: generateItems(+(Math.random() * 10).toFixed() + 5, (j) => ({
+    tasks: generateItems(+(Math.random() * 10).toFixed() + 5, (j: any) => ({
       type: "draggable",
       id: uuidv4(),
       title: lorem.slice(0, Math.floor(Math.random() * 150) + 30),
@@ -266,7 +266,7 @@ const onTaskStatusChange = (event: Event) => {
       }
 
       .task-list {
-        @apply flex flex-col gap-2 pr-3 overflow-y-auto h-[calc(100vh-100px)];
+        @apply flex flex-col gap-2 pr-3 overflow-y-auto h-[calc(100vh-400px)];
 
         &.task-ghost {
           @apply bg-zinc-400 border-zinc-700;

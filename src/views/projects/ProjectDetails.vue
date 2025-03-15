@@ -1,5 +1,7 @@
 <template>
   <div class="">{{ path }}</div>
+
+  <KanbanBoard />
 </template>
 
 <script setup lang="ts">
@@ -7,6 +9,7 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAppStore } from "@/shared/stores/app.store";
 import { useProjectsStore } from "@/shared/stores/projects.store";
+import KanbanBoard from "@/components/features/kanban/KanbanBoard.vue";
 
 const appStore = useAppStore();
 const projectsStore = useProjectsStore();
