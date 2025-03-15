@@ -6,24 +6,20 @@
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-56">
-      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-      <DropdownMenuSeparator />
       <DropdownMenuGroup>
+        <!-- Rename -->
         <DropdownMenuItem>
-          <span>Profile</span>
-          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          <span>Rename</span>
         </DropdownMenuItem>
+
+        <!-- Open In File Manager -->
         <DropdownMenuItem>
-          <span>Billing</span>
-          <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          <span>Open In File Manager</span>
         </DropdownMenuItem>
+
+        <!-- Delete -->
         <DropdownMenuItem>
-          <span>Settings</span>
-          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <span>Keyboard shortcuts</span>
-          <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          <span>Delete</span>
         </DropdownMenuItem>
       </DropdownMenuGroup>
     </DropdownMenuContent>
