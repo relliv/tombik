@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, defineProps, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { Button } from "@/components/ui/button";
 import ISidebarMenu from "@/shared/models/layout/sidebar";
@@ -88,14 +88,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  IconHome,
-  IconHourglass,
-  IconLaurelWreath,
-  IconSettings,
-  IconBrightnessFilled,
-  IconSitemap,
-} from "@tabler/icons-vue";
+import { IconBrightnessFilled } from "@tabler/icons-vue";
 import { RouterLink } from "vue-router";
 import { useSidebarStore } from "@/shared/stores/sidebar.store";
 
@@ -139,9 +132,11 @@ const onBottomMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
 
 onMounted(() => {
   const storedMenuItemName = localStorage.getItem("activeMenuItem");
+
   if (storedMenuItemName) {
     sidebarStore.topMenuItems?.forEach((item: ISidebarMenu) => {
       item.isActive = item.name === storedMenuItemName;
+
       if (item.isActive && item.route) {
         router.push(item.route);
       }
@@ -152,11 +147,6 @@ onMounted(() => {
 defineComponent({
   // vue
   RouterLink,
-
-  // icons
-  IconHome,
-  IconHourglass,
-  IconLaurelWreath,
 
   // shadcn component
   Button,

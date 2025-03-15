@@ -51,8 +51,6 @@ export const useSidebarStore = defineStore("sidebar", () => {
     }
   };
 
-  const getActiveMenuItem = () => {};
-
   return {
     // states
     topMenuItems,
