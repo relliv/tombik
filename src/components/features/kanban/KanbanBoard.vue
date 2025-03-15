@@ -121,7 +121,7 @@ import {
 import { Container, Draggable } from "vue3-smooth-dnd";
 import { applyDrag, generateItems } from "@/shared/utils/array.util";
 import { v4 as uuidv4 } from "uuid";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import { Plus, Check } from "lucide-vue-next";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
@@ -227,8 +227,14 @@ const onTaskStatusChange = (event: Event) => {
   event.stopPropagation();
 };
 
+watch(props, (newVal: any) => {
+  if (newVal) {
+    scene.value.columns = newVal.boardData ?? scene.value.columns;
+  }
+});
+
 onMounted(() => {
-  scene.value = props.boardData || scene.value;
+  scene.value.columns = props.boardData ?? scene.value.columns;
 });
 </script>
 

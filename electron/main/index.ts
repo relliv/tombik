@@ -1,3 +1,4 @@
+import { PROJECT_BOARD_COLUMNS } from "./../../src/shared/constants/project-board.constants";
 import { IBasicFolder } from "./../../src/shared/models/file/folder.model";
 import {
   app,
@@ -12,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
 import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -189,8 +191,18 @@ ipcMain.handle("create-new-project", async (_, projectName) => {
 });
 
 ipcMain.handle("get-project-board-data", async (_, projectPath: string) => {
-  // read board.json file content as JSON
   const boardPath = path.join(projectPath, "board.json");
+
+  if (!fs.existsSync(boardPath)) {
+    return PROJECT_BOARD_COLUMNS.map((item: string) => {
+      return {
+        id: uuidv4(),
+        name: item,
+        tasks: [],
+      };
+    });
+  }
+
   const boardData = await fs.promises.readFile(boardPath, "utf-8");
 
   return JSON.parse(boardData);

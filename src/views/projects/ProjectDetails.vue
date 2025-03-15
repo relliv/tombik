@@ -23,7 +23,9 @@ const path = ref(route.query.path || "");
 const boardData = ref({});
 
 const getProjectBoardData = async () => {
-  boardData.value = (window as any).ipcRenderer.getProjectBoardData(path.value);
+  boardData.value = await (window as any).ipcRenderer.getProjectBoardData(
+    path.value
+  );
 };
 
 onMounted(async () => {
@@ -58,7 +60,7 @@ onMounted(async () => {
     );
   }
 
-  getProjectBoardData();
+  await getProjectBoardData();
 });
 </script>
 
