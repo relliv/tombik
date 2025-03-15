@@ -62,8 +62,11 @@
     "radix-vue": "^1.9.17",
     "tailwindcss-animate": "^1.0.7",
     "tippy.js": "^6.3.7",
+    "uuid": "^11.1.0",
+    "vaul-vue": "^0.4.1",
     "vue-ellipse-progress": "^2.2.0",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "vue3-smooth-dnd": "^0.0.6"
   },
   "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
 }
