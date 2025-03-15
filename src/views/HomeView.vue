@@ -82,7 +82,7 @@ onMounted(async () => {
 
   const username = (await localForage.getItem("username")) as string;
 
-  appStore.setPageTitle(`Hello, ${username}.`);
+  appStore.setPageTitle(`Hello, ${username}.`, "Ready for today's challenges?");
 });
 
 watch(

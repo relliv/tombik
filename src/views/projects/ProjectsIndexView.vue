@@ -1,24 +1,31 @@
 <template>
-  <div>
-    <h1>Projects</h1>
+  <div class="flex flex-col gap-4">
+    <!-- Header -->
+    <div class="flex flex-row justify-between items-center">
+      <span class="text-gray-500"> {{ folders.length }} Projects </span>
 
-    <Dialog>
-      <DialogTrigger>
-        <Button> Create New Project </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            <Input v-model="projectName" placeholder="Project Name" />
-          </DialogDescription>
-        </DialogHeader>
+      <Dialog>
+        <DialogTrigger>
+          <button
+            class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md"
+          >
+            <FolderPlus /> Create New Project
+          </button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              <Input v-model="projectName" placeholder="Project Name" />s
+            </DialogDescription>
+          </DialogHeader>
 
-        <DialogFooter @click="createProject(projectName)">
-          Save changes
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter @click="createProject(projectName)">
+            Save changes
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
 
     <div class="rounded-md border">
       <Table>
@@ -134,7 +141,7 @@ import {
   getSortedRowModel,
   useVueTable,
 } from "@tanstack/vue-table";
-import { ChevronDown, ChevronsUpDown } from "lucide-vue-next";
+import { ChevronDown, ChevronsUpDown, FolderPlus } from "lucide-vue-next";
 import { useAppStore } from "@/shared/stores/app.store";
 
 const appStore = useAppStore();
@@ -254,7 +261,7 @@ const createProject = async (projectName: string) => {
 onMounted(async () => {
   loadProjectFolders();
 
-  appStore.setPageTitle("Projects");
+  appStore.setPageTitle("Projects", "Manage your projects");
 });
 </script>
 

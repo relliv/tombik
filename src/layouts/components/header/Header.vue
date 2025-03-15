@@ -6,7 +6,9 @@
         {{ appStore.pageTitle }}
       </div>
 
-      <div class="message">Ready for today's challenges?</div>
+      <div class="message">
+        {{ appStore.pageDescription }}
+      </div>
 
       <!-- Edit Button -->
       <Dialog>
