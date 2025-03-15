@@ -165,7 +165,7 @@ import {
 } from "@/components/ui/tooltip";
 import DropdownAction from "@/components/features/project/DropdownAction.vue";
 import { RouterLink } from "vue-router";
-import { useProjectsStore } from "@/shared/stores/projects.stor";
+import { useProjectsStore } from "@/shared/stores/projects.store";
 
 const appStore = useAppStore();
 const projectsStore = useProjectsStore();

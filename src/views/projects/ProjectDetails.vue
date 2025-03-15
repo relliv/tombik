@@ -6,8 +6,11 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAppStore } from "@/shared/stores/app.store";
+import { useProjectsStore } from "@/shared/stores/projects.store";
 
 const appStore = useAppStore();
+const projectsStore = useProjectsStore();
+
 const route = useRoute();
 const path = ref(route.query.path || "");
 
