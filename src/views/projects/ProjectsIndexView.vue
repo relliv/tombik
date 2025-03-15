@@ -159,6 +159,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import DropdownAction from "@/components/features/project/DropdownAction.vue";
 
 const appStore = useAppStore();
 
@@ -194,22 +195,22 @@ const columns = [
     header: "Name",
     cell: ({ row }) => h("div", { class: "capitalize" }, row.getValue("name")),
   }),
-  // columnHelper.display({
-  //   id: "actions",
-  //   enableHiding: false,
-  //   cell: ({ row }) => {
-  //     const payment = row.original;
+  columnHelper.display({
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original;
 
-  //     return h(
-  //       "div",
-  //       { class: "relative" },
-  //       h(DropdownAction, {
-  //         payment,
-  //         onExpand: row.toggleExpanded,
-  //       })
-  //     );
-  //   },
-  // }),
+      return h(
+        "div",
+        { class: "relative" },
+        h(DropdownAction, {
+          payment,
+          onExpand: row.toggleExpanded,
+        })
+      );
+    },
+  }),
 ];
 
 const sorting = ref<SortingState>([]);
