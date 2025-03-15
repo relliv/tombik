@@ -28,11 +28,15 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   maximizeWindow: () => ipcRenderer.send("window-maximize"),
   minimizeWindow: () => ipcRenderer.send("window-minimize"),
   closeWindow: () => ipcRenderer.send("window-close"),
-  isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
-  onMaximizedChange: (callback:any) => ipcRenderer.on('window-maximized-change', callback),
-  selectWorkspace: () => ipcRenderer.invoke('select-workspace'),
-  getWorkspaceFolders: () => ipcRenderer.invoke('get-workspace-folders'),
-  createNewProject: (projectName: string) => ipcRenderer.invoke('create-new-project', projectName),
+  isWindowMaximized: () => ipcRenderer.invoke("is-window-maximized"),
+  onMaximizedChange: (callback: any) =>
+    ipcRenderer.on("window-maximized-change", callback),
+  selectWorkspace: () => ipcRenderer.invoke("select-workspace"),
+  getWorkspaceFolders: () => ipcRenderer.invoke("get-workspace-folders"),
+  createNewProject: (projectName: string) =>
+    ipcRenderer.invoke("create-new-project", projectName),
+  getProjectBoardData: (projectPath: string) =>
+    ipcRenderer.invoke("get-project-board-data", projectPath),
 });
 
 // --------- Preload scripts loading ---------

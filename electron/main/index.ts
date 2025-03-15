@@ -188,6 +188,14 @@ ipcMain.handle("create-new-project", async (_, projectName) => {
   return createNewProjectFolder(projectName);
 });
 
+ipcMain.handle("get-project-board-data", async (_, projectPath: string) => {
+  // read board.json file content as JSON
+  const boardPath = path.join(projectPath, "board.json");
+  const boardData = await fs.promises.readFile(boardPath, "utf-8");
+
+  return JSON.parse(boardData);
+});
+
 app.whenReady().then(async () => {
   let workspaceDirectory = getSavedWorkspaceDirectory();
   if (!workspaceDirectory) {

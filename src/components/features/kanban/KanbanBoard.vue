@@ -121,10 +121,17 @@ import {
 import { Container, Draggable } from "vue3-smooth-dnd";
 import { applyDrag, generateItems } from "@/shared/utils/array.util";
 import { v4 as uuidv4 } from "uuid";
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { Plus, Check } from "lucide-vue-next";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
+
+const props = defineProps({
+  boardData: {
+    type: Object,
+    required: true,
+  },
+});
 
 const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -132,7 +139,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
 const columnNames = ["To do", "In progress", "Complete", "Backlog", "Blocked"];
 
-const scene = reactive({
+const scene = ref<any>({
   type: "container",
   props: {
     orientation: "horizontal",
@@ -169,26 +176,26 @@ const dropPlaceholderOptions = reactive({
 const isTaskDetailsDrawerOpen = ref(false);
 
 function onColumnDrop(dropResult: any) {
-  const newScene = Object.assign({}, scene);
+  const newScene = Object.assign({}, scene.value);
   newScene.columns = applyDrag(newScene.columns, dropResult);
-  scene.columns = newScene.columns;
+  scene.value.columns = newScene.columns;
 }
 
 function onCardDrop(columnId: any, dropResult: any) {
   if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-    const newScene = Object.assign({}, scene);
+    const newScene = Object.assign({}, scene.value);
     const column = newScene.columns.find((p) => p.id === columnId);
     const columnIndex = newScene.columns.indexOf(column);
     const newColumn = Object.assign({}, column);
     newColumn.tasks = applyDrag(newColumn.tasks, dropResult);
     newScene.columns.splice(columnIndex, 1, newColumn);
-    scene.columns = newScene.columns;
+    scene.value.columns = newScene.columns;
   }
 }
 
 function getCardPayload(columnId: any) {
   return (index: number) => {
-    return scene.columns.find((p) => p.id === columnId).tasks[index];
+    return scene.value.columns.find((p) => p.id === columnId).tasks[index];
   };
 }
 
@@ -201,7 +208,7 @@ function log(...params: any[]) {
 }
 
 function addNewTask(columnId: any) {
-  const column = scene.columns.find((p) => p.id === columnId);
+  const column = scene.value.columns.find((p) => p.id === columnId);
   if (column) {
     column.tasks.unshift({
       type: "draggable",
@@ -219,6 +226,10 @@ function onTaskClick(task: any) {
 const onTaskStatusChange = (event: Event) => {
   event.stopPropagation();
 };
+
+onMounted(() => {
+  scene.value = props.boardData || scene.value;
+});
 </script>
 
 <style scoped lang="scss">

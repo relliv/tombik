@@ -1,7 +1,7 @@
 <template>
   <div class="">{{ path }}</div>
 
-  <KanbanBoard />
+  <KanbanBoard :board-data="boardData" />
 </template>
 
 <script setup lang="ts">
@@ -20,6 +20,11 @@ const projectsStore = useProjectsStore();
 
 const route = useRoute();
 const path = ref(route.query.path || "");
+const boardData = ref({});
+
+const getProjectBoardData = async () => {
+  boardData.value = (window as any).ipcRenderer.getProjectBoardData(path.value);
+};
 
 onMounted(async () => {
   if (projectsStore.projectFolders.length === 0) {
@@ -52,6 +57,8 @@ onMounted(async () => {
       `${route.path}?path=${fullPath}`
     );
   }
+
+  getProjectBoardData();
 });
 </script>
 
