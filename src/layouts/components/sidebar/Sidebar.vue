@@ -75,7 +75,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, defineProps, ref } from "vue";
+import { defineComponent, defineProps, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { Button } from "@/components/ui/button";
 import ISidebarMenu from "@/shared/models/layout/sidebar";
 import {
@@ -112,12 +113,12 @@ const topMenuItems = ref(<ISidebarMenu[]>[
     route: "/projects",
     isDisabled: false,
   },
-  {
-    name: "example",
-    icon: IconLaurelWreath,
-    route: "/example",
-    isDisabled: true,
-  },
+  // {
+  //   name: "example",
+  //   icon: IconLaurelWreath,
+  //   route: "/example",
+  //   isDisabled: true,
+  // },
   {
     name: "Settings",
     icon: IconSettings,
@@ -136,6 +137,8 @@ const props = defineProps({
   isSidebarOpen: Boolean,
 });
 
+const router = useRouter();
+
 const onMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
   if (menuItem.isDisabled) {
     event.preventDefault();
@@ -147,6 +150,14 @@ const onMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
   topMenuItems.value?.forEach((item: ISidebarMenu) => {
     item.isActive = item.name === menuItem.name;
   });
+
+  // Store the active menu item in local storage
+  localStorage.setItem("activeMenuItem", menuItem.name);
+
+  // Navigate to the menu item's route
+  if (menuItem.route) {
+    router.push(menuItem.route);
+  }
 };
 
 const onBottomMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
@@ -159,6 +170,18 @@ const onBottomMenuItemClick = (event: MouseEvent, menuItem: ISidebarMenu) => {
 
   // TODO: Implement
 };
+
+onMounted(() => {
+  const storedMenuItemName = localStorage.getItem("activeMenuItem");
+  if (storedMenuItemName) {
+    topMenuItems.value?.forEach((item: ISidebarMenu) => {
+      item.isActive = item.name === storedMenuItemName;
+      if (item.isActive && item.route) {
+        router.push(item.route);
+      }
+    });
+  }
+});
 
 defineComponent({
   // vue
