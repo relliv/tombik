@@ -79,6 +79,26 @@ function getSavedWorkspaceDirectory() {
   return null;
 }
 
+// Function to get list of folders in the workspace directory
+function getFoldersInWorkspace(workspacePath: string): string[] {
+  return fs.readdirSync(workspacePath).filter((file) => {
+    return fs.statSync(path.join(workspacePath, file)).isDirectory();
+  });
+}
+
+// Function to create a new project folder in the workspace directory
+function createNewProjectFolder(projectName: string) {
+  const workspaceDirectory = getSavedWorkspaceDirectory();
+  if (workspaceDirectory) {
+    const newProjectPath = path.join(workspaceDirectory, projectName);
+    if (!fs.existsSync(newProjectPath)) {
+      fs.mkdirSync(newProjectPath);
+      return true;
+    }
+  }
+  return false;
+}
+
 async function createWindow() {
   win = new BrowserWindow({
     title: "Main window",
@@ -145,6 +165,18 @@ function setupWindowControls() {
   });
   // win.webContents.on('will-navigate', (event, url) => { }) #344
 }
+
+ipcMain.handle("get-workspace-folders", async () => {
+  const workspaceDirectory = getSavedWorkspaceDirectory();
+  if (workspaceDirectory) {
+    return getFoldersInWorkspace(workspaceDirectory);
+  }
+  return [];
+});
+
+ipcMain.handle("create-new-project", async (_, projectName) => {
+  return createNewProjectFolder(projectName);
+});
 
 app.whenReady().then(async () => {
   let workspaceDirectory = getSavedWorkspaceDirectory();

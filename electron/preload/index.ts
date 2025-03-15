@@ -31,6 +31,8 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
   onMaximizedChange: (callback:any) => ipcRenderer.on('window-maximized-change', callback),
   selectWorkspace: () => ipcRenderer.invoke('select-workspace'),
+  getWorkspaceFolders: () => ipcRenderer.invoke('get-workspace-folders'),
+  createNewProject: (projectName: string) => ipcRenderer.invoke('create-new-project', projectName),
 });
 
 // --------- Preload scripts loading ---------
