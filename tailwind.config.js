@@ -95,18 +95,18 @@ export default {
   		keyframes: {
   			'accordion-down': {
   				from: {
-  					height: 0
+  					height: '0'
   				},
   				to: {
-  					height: 'var(--radix-accordion-content-height)'
+  					height: 'var(--reka-accordion-content-height)'
   				}
   			},
   			'accordion-up': {
   				from: {
-  					height: 'var(--radix-accordion-content-height)'
+  					height: 'var(--reka-accordion-content-height)'
   				},
   				to: {
-  					height: 0
+  					height: '0'
   				}
   			},
   			'collapsible-down': {
