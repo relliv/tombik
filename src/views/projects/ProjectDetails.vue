@@ -18,6 +18,19 @@ onMounted(async () => {
   const fullPath = path.value;
 
   appStore.setPageTitle("Project", "Let's get started");
+
+  const currrentProject = projectsStore.projectFolders.find(
+    (folder) => folder.fullPath === fullPath
+  );
+
+  if (currrentProject) {
+    projectsStore.setCurrentProject(currrentProject);
+
+    appStore.setPageTitle(
+      `Project: ${projectsStore.currentProjectFolder?.name || "Unknown"}`,
+      "Let's get started"
+    );
+  }
 });
 </script>
 
