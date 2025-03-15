@@ -285,6 +285,7 @@ const createProject = async (projectName: string) => {
 
     if (success) {
       const projectFolders = await ProjectService.loadProjectFolders();
+      folders.value = projectFolders;
 
       projectsStore.setProjects(projectFolders);
     } else {
@@ -297,6 +298,7 @@ const createProject = async (projectName: string) => {
 
 onMounted(async () => {
   const projectFolders = await ProjectService.loadProjectFolders();
+  folders.value = projectFolders;
 
   projectsStore.setProjects(projectFolders);
 
