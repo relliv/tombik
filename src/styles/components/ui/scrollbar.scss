@@ -1,0 +1,46 @@
+:root {
+    --scrollbar-size: 7px;
+    --scrollbar-bg-color: white;
+    --scrollbar-thumb-color: #d2d0d0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --scrollbar-bg-color: #333333;
+        --scrollbar-thumb-color: #555555;
+    }
+}
+
+html[data-theme-mode="dark"] {
+    :root {
+        --scrollbar-bg-color: #333333;
+        --scrollbar-thumb-color: #555555;
+    }
+}
+
+.custom-scrollbar-container {
+    @apply overflow-auto;
+
+    .custom-scrollbar {
+        &::-webkit-scrollbar {
+            width: var(--scrollbar-size);
+            background-color: var(--scrollbar-bg-color);
+            border-radius: 5px;
+        }
+
+        &::-webkit-scrollbar:horizontal {
+            height: var(--scrollbar-size);
+            background-color: var(--scrollbar-bg-color);
+        }
+
+        &::-webkit-scrollbar-track {
+            background-color: var(--scrollbar-bg-color);
+            border-radius: var(--scrollbar-size);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: var(--scrollbar-size);
+            background-color: var(--scrollbar-thumb-color);
+        }
+    }
+}
