@@ -39,6 +39,7 @@
     <!-- Table -->
     <div class="rounded-md border">
       <Table>
+        <!-- Header -->
         <TableHeader>
           <TableRow
             v-for="headerGroup in table.getHeaderGroups()"
@@ -63,6 +64,8 @@
             </TableHead>
           </TableRow>
         </TableHeader>
+
+        <!-- Body -->
         <TableBody>
           <template v-if="table.getRowModel().rows?.length">
             <template v-for="row in table.getRowModel().rows" :key="row.id">
@@ -193,7 +196,7 @@ const columns = [
   columnHelper.accessor("name", {
     enablePinning: true,
     header: "Name",
-    cell: ({ row }) => h("div", { class: "capitalize" }, row.getValue("name")),
+    cell: ({ row }) => h("div", row.getValue("name")),
   }),
   columnHelper.display({
     id: "actions",
