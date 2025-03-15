@@ -19,7 +19,9 @@
     </Dialog>
 
     <ul>
-      <li v-for="folder in folders" :key="folder">{{ folder }}</li>
+      <li v-for="folder in folders" :key="folder.fullPath">
+        {{ folder.name }}
+      </li>
     </ul>
   </div>
 </template>
@@ -36,15 +38,21 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ref, onMounted } from "vue";
+import { IBasicFolder } from "@/shared/models/file/folder.model.ts";
 
-const folders = ref<string[]>([]);
+const folders = ref<IBasicFolder[]>([]);
 const projectName = ref("");
+
+const loadProjectFolders = async () => {
+  folders.value = await window.ipcRenderer.getWorkspaceFolders();
+};
 
 const createProject = async (projectName: string) => {
   if (projectName) {
     const success = await window.ipcRenderer.createNewProject(projectName);
+
     if (success) {
-      folders.value.push(projectName);
+      loadProjectFolders();
     } else {
       alert("Project creation failed or already exists.");
     }
@@ -52,7 +60,7 @@ const createProject = async (projectName: string) => {
 };
 
 onMounted(async () => {
-  folders.value = await window.ipcRenderer.getWorkspaceFolders();
+  loadProjectFolders();
 });
 </script>
 

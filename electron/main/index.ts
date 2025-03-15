@@ -1,3 +1,4 @@
+import { IBasicFolder } from "./../../src/shared/models/file/folder.model";
 import {
   app,
   BrowserWindow,
@@ -79,11 +80,20 @@ function getSavedWorkspaceDirectory() {
   return null;
 }
 
-// Function to get list of folders in the workspace directory
-function getFoldersInWorkspace(workspacePath: string): string[] {
-  return fs.readdirSync(workspacePath).filter((file) => {
-    return fs.statSync(path.join(workspacePath, file)).isDirectory();
-  });
+// Function to get list of folders in the workspace directory with full path and folder name
+function getFoldersInWorkspace(workspacePath: string): IBasicFolder[] {
+  return fs
+    .readdirSync(workspacePath)
+    .filter((file) => {
+      return fs.statSync(path.join(workspacePath, file)).isDirectory();
+    })
+    .map(
+      (folder: string) =>
+        ({
+          fullPath: path.join(workspacePath, folder),
+          name: folder,
+        } as IBasicFolder)
+    );
 }
 
 // Function to create a new project folder in the workspace directory
