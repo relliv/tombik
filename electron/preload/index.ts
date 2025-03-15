@@ -30,6 +30,7 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   closeWindow: () => ipcRenderer.send("window-close"),
   isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
   onMaximizedChange: (callback:any) => ipcRenderer.on('window-maximized-change', callback),
+  selectWorkspace: () => ipcRenderer.invoke('select-workspace'),
 });
 
 // --------- Preload scripts loading ---------

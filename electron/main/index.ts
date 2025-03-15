@@ -1,8 +1,16 @@
-import { app, BrowserWindow, shell, ipcMain, Notification } from "electron";
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  Notification,
+  dialog,
+} from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
+import fs from "fs";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -42,6 +50,35 @@ let win: BrowserWindow | null = null;
 const preload = path.join(__dirname, "../preload/index.mjs");
 const indexHtml = path.join(RENDERER_DIST, "index.html");
 
+const workspaceFilePath = path.join(
+  app.getPath("userData"),
+  "current-user-workspace.json"
+);
+
+async function selectWorkspaceDirectory() {
+  const result = await dialog.showOpenDialog({
+    properties: ["openDirectory"],
+  });
+
+  if (!result.canceled && result.filePaths.length > 0) {
+    const selectedPath = result.filePaths[0];
+    fs.writeFileSync(
+      workspaceFilePath,
+      JSON.stringify({ workspace: selectedPath }, null, 2)
+    );
+    return selectedPath;
+  }
+  return null;
+}
+
+function getSavedWorkspaceDirectory() {
+  if (fs.existsSync(workspaceFilePath)) {
+    const data = fs.readFileSync(workspaceFilePath, "utf-8");
+    return JSON.parse(data).workspace;
+  }
+  return null;
+}
+
 async function createWindow() {
   win = new BrowserWindow({
     title: "Main window",
@@ -62,7 +99,6 @@ async function createWindow() {
     },
   });
 
-
   if (VITE_DEV_SERVER_URL) {
     // #298
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -76,25 +112,25 @@ async function createWindow() {
 }
 
 function setupWindowControls() {
-  ipcMain.on('window-minimize', () => win.minimize());
-  ipcMain.on('window-maximize', () => {
+  ipcMain.on("window-minimize", () => win.minimize());
+  ipcMain.on("window-maximize", () => {
     if (win.isMaximized()) {
       win.unmaximize();
     } else {
       win.maximize();
     }
   });
-  
-  ipcMain.on('window-close', () => win.close());
-  
-  ipcMain.handle('is-window-maximized', () => win.isMaximized() ?? false);
 
-  win.on('maximize', () => {
-    win.webContents.send('window-maximized-change', true);
+  ipcMain.on("window-close", () => win.close());
+
+  ipcMain.handle("is-window-maximized", () => win.isMaximized() ?? false);
+
+  win.on("maximize", () => {
+    win.webContents.send("window-maximized-change", true);
   });
 
-  win.on('unmaximize', () => {
-    win.webContents.send('window-maximized-change', false);
+  win.on("unmaximize", () => {
+    win.webContents.send("window-maximized-change", false);
   });
 
   // Test actively push message to the Electron-Renderer
@@ -110,7 +146,19 @@ function setupWindowControls() {
   // win.webContents.on('will-navigate', (event, url) => { }) #344
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(async () => {
+  let workspaceDirectory = getSavedWorkspaceDirectory();
+  if (!workspaceDirectory) {
+    workspaceDirectory = await selectWorkspaceDirectory();
+  }
+
+  if (workspaceDirectory) {
+    console.log("Workspace Directory:", workspaceDirectory);
+    // You can now use this directory in your application logic
+  }
+
+  createWindow();
+});
 
 app.on("window-all-closed", () => {
   win = null;
