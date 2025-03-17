@@ -92,11 +92,13 @@
               </DrawerTitle>
             </div>
 
-            <input
+            <h1
               ref="taskTitleInput"
-              v-model="selectedTask!.title"
-              class="text-zinc-600 mb-2 font-semibold text-xl"
-            />
+              :contenteditable="true"
+              class="text-zinc-600 mb-2 font-semibold text-xl w-full p-2 border border-transparent focus:border-tombik-primary-500 rounded-md"
+            >
+              {{ selectedTask!.title }}
+            </h1>
           </div>
           <button
             type="button"
