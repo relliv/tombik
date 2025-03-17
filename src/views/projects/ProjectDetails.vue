@@ -1,6 +1,4 @@
 <template>
-  <div class="">{{ path }}</div>
-
   <KanbanBoard :board-data="boardData" />
 </template>
 

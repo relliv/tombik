@@ -18,7 +18,7 @@
           <div class="header">
             <div class="left">
               <span class="title">
-                {{ column.name }}
+                {{ column.title }}
               </span>
 
               <span class="count">
