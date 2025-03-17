@@ -1,4 +1,5 @@
 import { ipcRenderer, contextBridge } from "electron";
+import { ITaskColumn } from "../../src/shared/models/project/task.model";
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld("ipcRenderer", {
@@ -37,6 +38,8 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
     ipcRenderer.invoke("create-new-project", projectName),
   getProjectBoardData: (projectPath: string) =>
     ipcRenderer.invoke("get-project-board-data", projectPath),
+  saveProjectBoardData: (projectPath: string, data: string) =>
+    ipcRenderer.invoke("save-project-board-data", projectPath, data),
 });
 
 // --------- Preload scripts loading ---------

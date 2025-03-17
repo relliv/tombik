@@ -1,4 +1,7 @@
-import { TaskColumn } from "./../../src/shared/models/project/task.model";
+import {
+  ITaskColumn,
+  TaskColumn,
+} from "./../../src/shared/models/project/task.model";
 import { PROJECT_BOARD_COLUMNS } from "./../../src/shared/constants/project-board.constants";
 import { IBasicFolder } from "./../../src/shared/models/file/folder.model";
 import {
@@ -212,6 +215,17 @@ ipcMain.handle("get-project-board-data", async (_, projectPath: string) => {
 
   return JSON.parse(boardData);
 });
+
+ipcMain.handle(
+  "save-project-board-data",
+  async (_, projectPath: string, columns: string) => {
+    const boardPath = path.join(projectPath, "tasks.json");
+
+    fs.writeFileSync ? fs.writeFileSync(boardPath, columns) : null;
+
+    return true;
+  }
+);
 
 app.whenReady().then(async () => {
   let workspaceDirectory = getSavedWorkspaceDirectory();

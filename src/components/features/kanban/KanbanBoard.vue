@@ -134,6 +134,8 @@ const props = defineProps<{
   boardColumns: ITaskColumn[];
 }>();
 
+const emits = defineEmits(["save"]);
+
 const scene = ref<{
   columns: ITaskColumn[];
 }>({
@@ -217,6 +219,8 @@ function addNewTask(columnId: any) {
     });
 
     column.tasks.unshift(newTask);
+
+    emits("save", scene.value.columns);
 
     onTaskClick(newTask);
   }

@@ -1,5 +1,5 @@
 <template>
-  <KanbanBoard :boardColumns="boardColumns" />
+  <KanbanBoard :boardColumns="boardColumns" @save="saveBoardColumns($event)" />
 </template>
 
 <script setup lang="ts">
@@ -25,6 +25,18 @@ const getProjectBoardData = async () => {
   boardColumns.value = (await (window as any).ipcRenderer.getProjectBoardData(
     path.value
   )) as ITaskColumn[];
+};
+
+const saveBoardColumns = async (columns: ITaskColumn[]) => {
+  console.log(path, columns);
+  if (!path.value) {
+    return;
+  }
+
+  await (window as any).ipcRenderer.saveProjectBoardData(
+    path.value,
+    JSON.stringify(columns, null, 2)
+  );
 };
 
 onMounted(async () => {
