@@ -91,10 +91,13 @@
                 Unstyled drawer for Vue.
               </DrawerTitle>
             </div>
-            <p class="text-zinc-600 mb-2">
-              This component can be used as a replacement for a Dialog on mobile
-              and tablet devices.
-            </p>
+
+            <input
+              :v-model="selectedTask?.title"
+              class="text-zinc-600 mb-2 font-semibold text-xl"
+            >
+              {{ selectedTask?.title || "Task Title" }}
+            </input>
           </div>
           <button
             type="button"
@@ -120,9 +123,9 @@ import {
 } from "vaul-vue";
 import { Container, Draggable } from "vue3-smooth-dnd";
 import { applyDrag, generateItems } from "@/shared/utils/array.util";
-import { ref, reactive, onMounted, watch } from "vue";
+import { ref, reactive, onMounted, watch, VNodeRef } from "vue";
 import { Plus, Check } from "lucide-vue-next";
-import { ITaskColumn, Task } from "@/shared/models/project/task.model";
+import { ITask, ITaskColumn, Task } from "@/shared/models/project/task.model";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
 
@@ -135,6 +138,8 @@ const scene = ref<{
 }>({
   columns: [],
 });
+
+const selectedTask = ref<ITask | null>(null);
 
 const upperDropPlaceholderOptions = reactive({
   className: "cards-drop-preview",
@@ -201,7 +206,7 @@ function addNewTask(columnId: any) {
   if (column) {
     const newTask = new Task({
       title:
-        "New Task" +
+        "New Task " +
         scene.value.columns.reduce(
           (acc, column) => acc + column.tasks.length,
           0
@@ -209,10 +214,14 @@ function addNewTask(columnId: any) {
     });
 
     column.tasks.unshift(newTask);
+
+    onTaskClick(newTask);
   }
 }
 
-function onTaskClick(task: any) {
+function onTaskClick(task: ITask) {
+  selectedTask.value = task;
+
   isTaskDetailsDrawerOpen.value = true;
 }
 
