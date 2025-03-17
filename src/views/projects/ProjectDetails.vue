@@ -28,7 +28,6 @@ const getProjectBoardData = async () => {
 };
 
 const saveBoardColumns = async (columns: ITaskColumn[]) => {
-  console.log(path, columns);
   if (!path.value) {
     return;
   }

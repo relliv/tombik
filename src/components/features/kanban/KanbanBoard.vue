@@ -92,9 +92,11 @@
               </DrawerTitle>
             </div>
 
+            <!-- Task Title -->
             <h1
               ref="taskTitleInput"
               :contenteditable="true"
+              @blur="onTaskTitleBlur"
               class="text-zinc-600 mb-2 font-semibold text-xl w-full p-2 border border-transparent focus:border-tombik-primary-500 rounded-md"
             >
               {{ selectedTask!.title }}
@@ -247,6 +249,14 @@ const onTaskStatusChange = (event: Event, task: ITask) => {
   }
 
   emits("save", scene.value.columns);
+};
+
+const onTaskTitleBlur = () => {
+  if (selectedTask.value) {
+    selectedTask.value.title = taskTitleInput.value!.innerText;
+
+    emits("save", scene.value.columns);
+  }
 };
 
 watch(props, (newVal: any) => {
