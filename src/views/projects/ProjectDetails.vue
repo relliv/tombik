@@ -1,5 +1,5 @@
 <template>
-  <KanbanBoard :board-data="boardData" />
+  <KanbanBoard :boardColumns="boardColumns" />
 </template>
 
 <script setup lang="ts">
@@ -11,6 +11,7 @@ import KanbanBoard from "@/components/features/kanban/KanbanBoard.vue";
 import { useSidebarStore } from "@/shared/stores/sidebar.store";
 import ISidebarMenu from "@/shared/models/layout/sidebar";
 import { ProjectService } from "@/shared/services/project.service";
+import { ITaskColumn } from "@/shared/models/project/task.model";
 
 const sidebarStore = useSidebarStore();
 const appStore = useAppStore();
@@ -18,12 +19,12 @@ const projectsStore = useProjectsStore();
 
 const route = useRoute();
 const path = ref(route.query.path || "");
-const boardData = ref({});
+const boardColumns = ref<ITaskColumn[]>([]);
 
 const getProjectBoardData = async () => {
-  boardData.value = await (window as any).ipcRenderer.getProjectBoardData(
+  boardColumns.value = (await (window as any).ipcRenderer.getProjectBoardData(
     path.value
-  );
+  )) as ITaskColumn[];
 };
 
 onMounted(async () => {

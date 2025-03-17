@@ -120,25 +120,19 @@ import {
 } from "vaul-vue";
 import { Container, Draggable } from "vue3-smooth-dnd";
 import { applyDrag, generateItems } from "@/shared/utils/array.util";
-import { v4 as uuidv4 } from "uuid";
 import { ref, reactive, onMounted, watch } from "vue";
 import { Plus, Check } from "lucide-vue-next";
-import { ITaskColumn } from "@/shared/models/project/task.model";
+import { ITaskColumn, Task } from "@/shared/models/project/task.model";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
 
-const props = defineProps({
-  boardData: {
-    type: Object,
-    required: true,
-  },
-});
+const props = defineProps<{
+  boardColumns: ITaskColumn[];
+}>();
 
-const scene = ref<any>({
-  type: "container",
-  props: {
-    orientation: "horizontal",
-  },
+const scene = ref<{
+  columns: ITaskColumn[];
+}>({
   columns: [],
 });
 
@@ -168,19 +162,26 @@ function onCardDrop(columnId: any, dropResult: any) {
     const column = newScene.columns.find(
       (column: ITaskColumn) => column.id === columnId
     );
-    const columnIndex = newScene.columns.indexOf(column);
-    const newColumn = Object.assign({}, column);
-    newColumn.tasks = applyDrag(newColumn.tasks, dropResult);
-    newScene.columns.splice(columnIndex, 1, newColumn);
-    scene.value.columns = newScene.columns;
+
+    if (column) {
+      const columnIndex = newScene.columns.indexOf(column);
+      const newColumn = Object.assign({}, column);
+      newColumn.tasks = applyDrag(newColumn.tasks, dropResult);
+      newScene.columns.splice(columnIndex, 1, newColumn);
+      scene.value.columns = newScene.columns;
+    }
   }
 }
 
 function getCardPayload(columnId: any) {
   return (index: number) => {
-    return scene.value.columns.find(
+    const column = scene.value.columns.find(
       (column: ITaskColumn) => column.id === columnId
-    ).tasks[index];
+    );
+
+    if (column) {
+      column.tasks[index];
+    }
   };
 }
 
@@ -198,12 +199,16 @@ function addNewTask(columnId: any) {
   );
 
   if (column) {
-    column.tasks.unshift({
-      type: "draggable",
-      id: uuidv4(),
-      title: "New Task",
-      isDone: false,
+    const newTask = new Task({
+      title:
+        "New Task" +
+        scene.value.columns.reduce(
+          (acc, column) => acc + column.tasks.length,
+          0
+        ),
     });
+
+    column.tasks.unshift(newTask);
   }
 }
 
@@ -217,12 +222,12 @@ const onTaskStatusChange = (event: Event) => {
 
 watch(props, (newVal: any) => {
   if (newVal) {
-    scene.value.columns = newVal.boardData ?? scene.value.columns;
+    scene.value.columns = newVal.boardColumns;
   }
 });
 
 onMounted(() => {
-  scene.value.columns = props.boardData ?? scene.value.columns;
+  scene.value.columns = props.boardColumns;
 });
 </script>
 
