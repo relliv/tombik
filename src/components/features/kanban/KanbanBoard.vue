@@ -93,11 +93,10 @@
             </div>
 
             <input
-              :v-model="selectedTask?.title"
+              ref="taskTitleInput"
+              v-model="selectedTask!.title"
               class="text-zinc-600 mb-2 font-semibold text-xl"
-            >
-              {{ selectedTask?.title || "Task Title" }}
-            </input>
+            />
           </div>
           <button
             type="button"
@@ -140,6 +139,7 @@ const scene = ref<{
 });
 
 const selectedTask = ref<ITask | null>(null);
+const taskTitleInput = ref<HTMLInputElement | null>(null);
 
 const upperDropPlaceholderOptions = reactive({
   className: "cards-drop-preview",
@@ -210,7 +210,8 @@ function addNewTask(columnId: any) {
         scene.value.columns.reduce(
           (acc, column) => acc + column.tasks.length,
           0
-        ),
+        ) +
+        1,
     });
 
     column.tasks.unshift(newTask);
@@ -223,6 +224,12 @@ function onTaskClick(task: ITask) {
   selectedTask.value = task;
 
   isTaskDetailsDrawerOpen.value = true;
+
+  setTimeout(() => {
+    if (taskTitleInput.value) {
+      taskTitleInput.value.focus();
+    }
+  }, 100);
 }
 
 const onTaskStatusChange = (event: Event) => {
