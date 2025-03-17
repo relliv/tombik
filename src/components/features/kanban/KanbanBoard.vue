@@ -123,7 +123,7 @@ import { applyDrag, generateItems } from "@/shared/utils/array.util";
 import { v4 as uuidv4 } from "uuid";
 import { ref, reactive, onMounted, watch } from "vue";
 import { Plus, Check } from "lucide-vue-next";
-import { PROJECT_BOARD_COLUMNS } from "@/shared/constants/project-board.constants";
+import { ITaskColumn } from "@/shared/models/project/task.model";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
 
@@ -134,30 +134,12 @@ const props = defineProps({
   },
 });
 
-const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
-
 const scene = ref<any>({
   type: "container",
   props: {
     orientation: "horizontal",
   },
-  columns: generateItems(PROJECT_BOARD_COLUMNS.length, (i: any) => ({
-    id: uuidv4(),
-    type: "container",
-    name: PROJECT_BOARD_COLUMNS[i],
-    props: {
-      orientation: "vertical",
-      className: "card-container",
-    },
-    tasks: generateItems(+(Math.random() * 10).toFixed() + 5, (j: any) => ({
-      type: "draggable",
-      id: uuidv4(),
-      title: lorem.slice(0, Math.floor(Math.random() * 150) + 30),
-      isDone: Math.random() > 0.5,
-    })),
-  })),
+  columns: [],
 });
 
 const upperDropPlaceholderOptions = reactive({
@@ -183,7 +165,9 @@ function onColumnDrop(dropResult: any) {
 function onCardDrop(columnId: any, dropResult: any) {
   if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
     const newScene = Object.assign({}, scene.value);
-    const column = newScene.columns.find((p) => p.id === columnId);
+    const column = newScene.columns.find(
+      (column: ITaskColumn) => column.id === columnId
+    );
     const columnIndex = newScene.columns.indexOf(column);
     const newColumn = Object.assign({}, column);
     newColumn.tasks = applyDrag(newColumn.tasks, dropResult);
@@ -194,7 +178,9 @@ function onCardDrop(columnId: any, dropResult: any) {
 
 function getCardPayload(columnId: any) {
   return (index: number) => {
-    return scene.value.columns.find((p) => p.id === columnId).tasks[index];
+    return scene.value.columns.find(
+      (column: ITaskColumn) => column.id === columnId
+    ).tasks[index];
   };
 }
 
@@ -207,7 +193,10 @@ function log(...params: any[]) {
 }
 
 function addNewTask(columnId: any) {
-  const column = scene.value.columns.find((p) => p.id === columnId);
+  const column = scene.value.columns.find(
+    (column: ITaskColumn) => column.id === columnId
+  );
+
   if (column) {
     column.tasks.unshift({
       type: "draggable",
