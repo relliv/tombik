@@ -55,7 +55,7 @@
                     <input
                       type="checkbox"
                       v-model="card.isDone"
-                      @click="onTaskStatusChange($event)"
+                      @click="onTaskStatusChange($event, card)"
                     />
                   </div>
 
@@ -127,6 +127,7 @@ import { applyDrag, generateItems } from "@/shared/utils/array.util";
 import { ref, reactive, onMounted, watch, VNodeRef } from "vue";
 import { Plus, Check } from "lucide-vue-next";
 import { ITask, ITaskColumn, Task } from "@/shared/models/project/task.model";
+import { DateTime } from "luxon";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
 
@@ -232,8 +233,20 @@ function onTaskClick(task: ITask) {
   }, 100);
 }
 
-const onTaskStatusChange = (event: Event) => {
+const onTaskStatusChange = (event: Event, task: ITask) => {
   event.stopPropagation();
+
+  const value = (event.target as HTMLInputElement).checked;
+
+  task.isDone = value;
+
+  if (!value) {
+    task.completedAt = null;
+  } else {
+    task.completedAt = DateTime.now();
+  }
+
+  emits("save", scene.value.columns);
 };
 
 watch(props, (newVal: any) => {
