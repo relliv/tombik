@@ -191,16 +191,22 @@ ipcMain.handle("create-new-project", async (_, projectName) => {
 });
 
 ipcMain.handle("get-project-board-data", async (_, projectPath: string) => {
-  const boardPath = path.join(projectPath, "board.json");
+  const boardPath = path.join(projectPath, "tasks.json");
 
   if (!fs.existsSync(boardPath)) {
-    return PROJECT_BOARD_COLUMNS.map((item: string) => {
+    const emptyProject = PROJECT_BOARD_COLUMNS.map((item: string) => {
       return {
         id: uuidv4(),
         name: item,
         tasks: [],
       };
     });
+
+    fs.writeFileSync
+      ? fs.writeFileSync(boardPath, JSON.stringify(emptyProject, null, 2))
+      : null;
+
+    return emptyProject;
   }
 
   const boardData = await fs.promises.readFile(boardPath, "utf-8");
