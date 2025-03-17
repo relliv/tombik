@@ -209,13 +209,7 @@ function addNewTask(columnId: any) {
 
   if (column) {
     const newTask = new Task({
-      title:
-        "New Task " +
-        scene.value.columns.reduce(
-          (acc, column) => acc + column.tasks.length,
-          0
-        ) +
-        1,
+      title: "New Task " + (column.tasks.length + 1),
     });
 
     column.tasks.unshift(newTask);
