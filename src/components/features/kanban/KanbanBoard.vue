@@ -123,6 +123,7 @@ import { applyDrag, generateItems } from "@/shared/utils/array.util";
 import { v4 as uuidv4 } from "uuid";
 import { ref, reactive, onMounted, watch } from "vue";
 import { Plus, Check } from "lucide-vue-next";
+import { PROJECT_BOARD_COLUMNS } from "@/shared/constants/project-board.constants";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
 
@@ -137,17 +138,15 @@ const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do e
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
-const columnNames = ["To do", "In progress", "Complete", "Backlog", "Blocked"];
-
 const scene = ref<any>({
   type: "container",
   props: {
     orientation: "horizontal",
   },
-  columns: generateItems(4, (i: any) => ({
+  columns: generateItems(PROJECT_BOARD_COLUMNS.length, (i: any) => ({
     id: uuidv4(),
     type: "container",
-    name: columnNames[i],
+    name: PROJECT_BOARD_COLUMNS[i],
     props: {
       orientation: "vertical",
       className: "card-container",
