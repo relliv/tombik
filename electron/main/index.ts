@@ -1,3 +1,4 @@
+import { TaskColumn } from "./../../src/shared/models/project/task.model";
 import { PROJECT_BOARD_COLUMNS } from "./../../src/shared/constants/project-board.constants";
 import { IBasicFolder } from "./../../src/shared/models/file/folder.model";
 import {
@@ -194,12 +195,10 @@ ipcMain.handle("get-project-board-data", async (_, projectPath: string) => {
   const boardPath = path.join(projectPath, "tasks.json");
 
   if (!fs.existsSync(boardPath)) {
-    const emptyProject = PROJECT_BOARD_COLUMNS.map((item: string) => {
-      return {
-        id: uuidv4(),
-        name: item,
-        tasks: [],
-      };
+    const emptyProject = PROJECT_BOARD_COLUMNS.map((columnName: string) => {
+      return new TaskColumn({
+        title: columnName,
+      });
     });
 
     fs.writeFileSync
