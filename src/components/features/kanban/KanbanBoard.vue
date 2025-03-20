@@ -22,7 +22,7 @@
             class="column custom-scrollbar-container"
           >
             <!-- Column Header -->
-            <div class="header">
+            <div class="header column-drag-handle">
               <div class="left">
                 <span
                   class="title"
@@ -209,12 +209,14 @@ const dropPlaceholderOptions = reactive({
 
 const isTaskDetailsDrawerOpen = ref(false);
 
-function onColumnDrop(dropResult: any) {
-  console.log("NNNNNN", dropResult);
+const onColumnDrop = (dropResult: any) => {
   const newScene = Object.assign({}, scene.value);
+
   newScene.columns = applyDrag(newScene.columns, dropResult);
   scene.value.columns = newScene.columns;
-}
+
+  emits("save", scene.value.columns);
+};
 
 function onTaskDrop(columnId: string, dropResult: any) {
   console.log("********----->", dropResult);
@@ -403,14 +405,14 @@ onMounted(() => {
       }
 
       .header {
-        @apply flex flex-row gap-3 justify-between items-center;
+        @apply flex flex-row gap-3 justify-between items-center cursor-move;
 
         .left {
           @apply flex flex-row gap-2 items-center;
 
           .title {
             @apply text-white max-w-[250px] p-1 rounded-md
-              focus:outline-none
+              focus:outline-none cursor-text
               focus:outline-2 focus:outline-tombik-primary-500
               transition-all duration-200 ease-in-out;
           }
