@@ -45,7 +45,7 @@
             <!-- Column Content -->
             <Container
               group-name="col"
-              @drop="(e: any) => onCardDrop(column.id, e)"
+              @drop="(e: any) => onTaskDrop(column.id, e)"
               @drag-start="(e: any) => log('drag start', e)"
               @drag-end="(e: any) => log('drag end', e)"
               :get-child-payload="getCardPayload(column.id)"
@@ -172,21 +172,26 @@ const dropPlaceholderOptions = reactive({
 const isTaskDetailsDrawerOpen = ref(false);
 
 function onColumnDrop(dropResult: any) {
+  console.log("NNNNNN", dropResult);
   const newScene = Object.assign({}, scene.value);
   newScene.columns = applyDrag(newScene.columns, dropResult);
   scene.value.columns = newScene.columns;
 }
 
-function onCardDrop(columnId: any, dropResult: any) {
+function onTaskDrop(columnId: string, dropResult: any) {
+  console.log("********----->", dropResult);
   if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
     const newScene = Object.assign({}, scene.value);
     const column = newScene.columns.find(
       (column: ITaskColumn) => column.id === columnId
     );
 
+    console.log("********----->", column);
+
     if (column) {
       const columnIndex = newScene.columns.indexOf(column);
       const newColumn = Object.assign({}, column);
+
       newColumn.tasks = applyDrag(newColumn.tasks, dropResult);
       newScene.columns.splice(columnIndex, 1, newColumn);
       scene.value.columns = newScene.columns;
