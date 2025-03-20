@@ -294,11 +294,11 @@ onMounted(() => {
   @apply flex flex-col pb-0 mr-4 h-full w-[calc(100vw-200px)];
 
   .kanban {
-    @apply flex flex-row gap-5;
+    @apply flex flex-row gap-4;
 
     .column {
       @apply flex flex-col gap-4 min-w-[350px] p-4 rounded-lg
-        bg-gradient-to-b from-zinc-800 to-zinc-900;
+        bg-gradient-to-b from-gray-800/20 to-gray-900/20;
 
       .header {
         @apply flex flex-row gap-3 justify-between items-center;
@@ -321,11 +321,11 @@ onMounted(() => {
           @apply flex flex-row gap-2 justify-end;
 
           button {
-            @apply p-1.5 rounded-sm bg-zinc-800
+            @apply p-1.5 rounded-sm bg-gray-800/50
               transition-all duration-200 ease-in-out;
 
             &:hover {
-              @apply bg-zinc-700/80;
+              @apply bg-gray-700/80;
             }
 
             svg {
@@ -345,7 +345,7 @@ onMounted(() => {
         .task {
           @apply flex flex-col gap-2 border py-4 px-4 rounded-lg
             min-h-[100px]
-            bg-zinc-800 border-zinc-700 hover:border-zinc-600
+            bg-gray-800/20 border-gray-700/20 hover:border-gray-600/50
             transition-all duration-300 ease-in-out cursor-pointer;
 
           .title {
