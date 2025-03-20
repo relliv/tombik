@@ -21,7 +21,11 @@
             <!-- Column Header -->
             <div class="header">
               <div class="left">
-                <span class="title">
+                <span
+                  class="title"
+                  :contenteditable="true"
+                  @blur="onColumnTitleBlur($event, column)"
+                >
                   {{ column.title }}
                 </span>
 
@@ -264,6 +268,16 @@ const onTaskTitleBlur = () => {
   }
 };
 
+const onColumnTitleBlur = (event: Event, column: ITaskColumn) => {
+  const value = (event.target as HTMLElement).innerText.trim();
+
+  if (value) {
+    column.title = value;
+
+    emits("save", scene.value.columns);
+  }
+};
+
 watch(props, (newVal: any) => {
   if (newVal) {
     scene.value.columns = newVal.boardColumns;
@@ -293,7 +307,9 @@ onMounted(() => {
           @apply flex flex-row gap-2 items-center;
 
           .title {
-            @apply text-white;
+            @apply text-white max-w-[250px] p-1 rounded-md
+              focus:outline-none
+              focus:outline-2 focus:outline-tombik-primary-500;
           }
 
           .count {
