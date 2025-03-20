@@ -269,9 +269,9 @@ const onTaskTitleBlur = () => {
 };
 
 const onColumnTitleBlur = (event: Event, column: ITaskColumn) => {
-  const value = (event.target as HTMLElement).innerText.trim();
+  const value = (event.target as HTMLElement).innerText?.trim();
 
-  if (value) {
+  if (value?.length) {
     column.title = value;
 
     emits("save", scene.value.columns);
