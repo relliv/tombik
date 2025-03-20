@@ -3,7 +3,7 @@
     <TitleBar />
 
     <div class="w-full h-full">
-      <FloatingContainer
+      <!-- <FloatingContainer
         :initialPosition="{
           x: innerWidth - containerWidth - 10,
           y: innerHeight - containerHeight - 1 * 100,
@@ -12,13 +12,13 @@
       >
         <div class="flex flex-col select-none min-w-[150px]">
           <CircularTimer />
-          <!-- <button
+          <button
             class="float-right mb-2 border rounded-full size-7 border-gray-50"
             @click="isDebuggerBubbleVisible = !isDebuggerBubbleVisible"
           >
             {{ isDebuggerBubbleVisible ? "-" : "+" }}
           </button>
-  
+
           <ul
             class="pl-4 list-disc"
             :class="{
@@ -30,9 +30,9 @@
             <li>progress:{{ timerStore.progress.toFixed(1) }}</li>
             <li>increment:{{ timerStore.increment.toFixed(1) }}</li>
             <li>finishReason:{{ timerStore.finishReason }}</li>
-          </ul> -->
+          </ul>
         </div>
-      </FloatingContainer>
+      </FloatingContainer> -->
 
       <router-view />
 
