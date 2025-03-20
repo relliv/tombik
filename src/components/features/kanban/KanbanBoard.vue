@@ -4,7 +4,9 @@
       data-vaul-drawer-wrapper=""
       class="custom-scrollbar-container custom-scrollbar pb-3"
     >
+      <!-- Kanban Container -->
       <div class="kanban-container">
+        <!-- Current Columns -->
         <Container
           orientation="horizontal"
           @drop="onColumnDrop($event)"
@@ -13,6 +15,7 @@
           :drop-placeholder="upperDropPlaceholderOptions"
           class="kanban custom-scrollbar"
         >
+          <!-- Saved Columns -->
           <Draggable
             v-for="column in scene.columns"
             :key="column.id"
@@ -73,6 +76,20 @@
               </Draggable>
             </Container>
           </Draggable>
+
+          <!-- Add New Column -->
+          <div class="column add-new-column">
+            <!-- Column Header -->
+            <div class="header">
+              <div class="left">
+                <Plus :size="20" />
+                <span class="title"> Add New Column </span>
+              </div>
+            </div>
+
+            <!-- Column Content -->
+            <div class="task-list"></div>
+          </div>
         </Container>
       </div>
 
@@ -283,6 +300,8 @@ const onColumnTitleBlur = (event: Event, column: ITaskColumn) => {
   }
 };
 
+const onAddNewColumn = () => {};
+
 watch(props, (newVal: any) => {
   if (newVal) {
     scene.value.columns = newVal.boardColumns;
@@ -303,7 +322,24 @@ onMounted(() => {
 
     .column {
       @apply flex flex-col gap-4 min-w-[350px] p-4 rounded-lg
-        bg-gradient-to-b from-gray-800/20 to-gray-900/20;
+        bg-gradient-to-b from-gray-700/20 to-gray-900/20;
+
+      &.add-new-column {
+        @apply border border-transparent hover:border-gray-600/50
+          transition-all duration-300 ease-in-out cursor-pointer;
+
+        .header {
+          .left {
+            svg {
+              @apply stroke-gray-400;
+            }
+
+            .title {
+              @apply text-gray-400;
+            }
+          }
+        }
+      }
 
       .header {
         @apply flex flex-row gap-3 justify-between items-center;
