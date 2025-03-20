@@ -55,19 +55,19 @@
               class="task-list custom-scrollbar"
             >
               <!-- Draggable Task Items -->
-              <Draggable v-for="card in column.tasks" :key="card.id">
-                <div class="task" @click="onTaskClick(card)">
+              <Draggable v-for="task in column.tasks" :key="task.id">
+                <div class="task" @click="onTaskClick(task)">
                   <div class="title">
                     <div class="checkbox-container">
-                      <Check v-if="card.isDone" :size="12" />
+                      <Check v-if="task.isDone" :size="12" />
                       <input
                         type="checkbox"
-                        v-model="card.isDone"
-                        @click="onTaskStatusChange($event, card)"
+                        v-model="task.isDone"
+                        @click="onTaskStatusChange($event, task)"
                       />
                     </div>
 
-                    <h1>{{ card.title }}</h1>
+                    <h1>{{ task.title }}</h1>
                   </div>
                 </div>
               </Draggable>
