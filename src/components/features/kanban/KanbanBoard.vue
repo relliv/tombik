@@ -78,12 +78,28 @@
           </Draggable>
 
           <!-- Add New Column -->
-          <div class="column add-new-column">
+          <div class="column add-new-column" @click="onAddNewColumn">
             <!-- Column Header -->
             <div class="header">
               <div class="left">
                 <Plus :size="20" />
-                <span class="title"> Add New Column </span>
+                <span
+                  class="title"
+                  ref="addNewColumnRef"
+                  v-if="!isAddNewColumnTitleEditable"
+                >
+                  Add New Column
+                </span>
+                <input
+                  type="text"
+                  v-else
+                  class="title-input"
+                  v-model="newColumnTitle"
+                  ref="addNewColumnTitleRef"
+                  @blur="onAddNewColumnTitleBlur"
+                  @keyup.enter="onAddNewColumn"
+                  @keyup.escape="isAddNewColumnTitleEditable = false"
+                />
               </div>
             </div>
 
@@ -154,7 +170,12 @@ import { Container, Draggable } from "vue3-smooth-dnd";
 import { applyDrag, generateItems } from "@/shared/utils/array.util";
 import { ref, reactive, onMounted, watch, VNodeRef } from "vue";
 import { Plus, Check } from "lucide-vue-next";
-import { ITask, ITaskColumn, Task } from "@/shared/models/project/task.model";
+import {
+  ITask,
+  ITaskColumn,
+  Task,
+  TaskColumn,
+} from "@/shared/models/project/task.model";
 import { DateTime } from "luxon";
 
 const taskDetailsDrawerDirection = ref<DrawerDirection>("right");
@@ -300,7 +321,41 @@ const onColumnTitleBlur = (event: Event, column: ITaskColumn) => {
   }
 };
 
-const onAddNewColumn = () => {};
+// #region Add New Column
+
+const isAddNewColumnTitleEditable = ref(false);
+const addNewColumnTitleRef = ref<HTMLElement | null>(null);
+const newColumnTitle = ref("");
+
+const onAddNewColumn = () => {
+  isAddNewColumnTitleEditable.value = true;
+
+  setTimeout(() => {
+    addNewColumnTitleRef.value?.focus();
+  }, 200);
+};
+
+const onAddNewColumnTitleBlur = (event: Event) => {
+  isAddNewColumnTitleEditable.value = false;
+
+  const element = event.target as HTMLInputElement,
+    value = element.value?.trim();
+
+  if (value?.length) {
+    const newColumn = new TaskColumn({
+      title: value,
+      tasks: [],
+    });
+
+    scene.value.columns.push(newColumn);
+
+    emits("save", scene.value.columns);
+  }
+
+  newColumnTitle.value = "";
+};
+
+// #endregion
 
 watch(props, (newVal: any) => {
   if (newVal) {
@@ -337,6 +392,12 @@ onMounted(() => {
             .title {
               @apply text-gray-400;
             }
+
+            .title-input {
+              @apply bg-transparent focus:outline-none rounded-md px-2
+                focus:outline-2 focus:outline-tombik-primary-500
+                transition-all duration-200 ease-in-out;
+            }
           }
         }
       }
@@ -350,7 +411,8 @@ onMounted(() => {
           .title {
             @apply text-white max-w-[250px] p-1 rounded-md
               focus:outline-none
-              focus:outline-2 focus:outline-tombik-primary-500;
+              focus:outline-2 focus:outline-tombik-primary-500
+              transition-all duration-200 ease-in-out;
           }
 
           .count {
