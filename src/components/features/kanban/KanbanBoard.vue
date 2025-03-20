@@ -336,7 +336,7 @@ onMounted(() => {
       }
 
       .task-list {
-        @apply flex flex-col gap-2 overflow-y-auto h-[calc(100vh-400px)];
+        @apply flex flex-col gap-2 overflow-y-auto h-[calc(100vh-350px)];
 
         &.task-ghost {
           @apply bg-zinc-400 border-zinc-700;
