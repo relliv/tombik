@@ -10,10 +10,10 @@
             <Tooltip>
               <TooltipTrigger>
                 <button
-                  class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md"
+                  class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md bg-tombik-primary-500 text-gray-800 hover:bg-tombik-primary-400 transition-all duration-300 ease-in-out"
                   @click="isCreateFolderDialogOpen = true"
                 >
-                  <FolderPlus /> Create New Project
+                  <FolderPlus /> New Project
                 </button>
               </TooltipTrigger>
               <TooltipContent>
