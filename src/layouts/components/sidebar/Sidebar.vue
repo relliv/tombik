@@ -3,7 +3,9 @@
     <div class="sidebar">
       <!-- Top Container -->
       <div class="top-container">
-        <div class="logo">TK</div>
+        <div class="logo">
+          <img src="/assets/images/logos/app-icon.png" alt="Logo" height="50" />
+        </div>
 
         <ul>
           <li
