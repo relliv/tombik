@@ -12,6 +12,10 @@
                     @apply bg-tombik-primary-800 scale-105;
                 }
 
+                svg {
+                    @apply text-tombik-primary-600;
+                }
+
                 &.active {
                     @apply bg-tombik-primary-500;
 
