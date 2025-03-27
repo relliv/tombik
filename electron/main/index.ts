@@ -118,7 +118,8 @@ function createNewProjectFolder(projectName: string) {
 async function createWindow() {
   win = new BrowserWindow({
     title: "Main window",
-    icon: path.join(process.env.VITE_PUBLIC, "favicon.ico"),
+    icon: path.join(__dirname, "/public/assets/images/logos/app-icon.ico"),
+    // icon: path.join(__dirname, "public/assets/images/logos/app-icon.ico"),
     minHeight: 800,
     minWidth: 500,
     autoHideMenuBar: true,
