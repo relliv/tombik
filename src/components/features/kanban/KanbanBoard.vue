@@ -51,7 +51,7 @@
               @drop="(e: any) => onTaskDrop(column.id, e)"
               @drag-start="(e: any) => log('drag start', e)"
               @drag-end="(e: any) => log('drag end', e)"
-              :get-child-payload="getCardPayload(column.id)"
+              :get-child-payload="getTaskPayload(column.id)"
               drag-class="task-ghost"
               drop-class="card-ghost-drop"
               :drop-placeholder="dropPlaceholderOptions"
@@ -219,34 +219,35 @@ const onColumnDrop = (dropResult: any) => {
 };
 
 function onTaskDrop(columnId: string, dropResult: any) {
-  console.log("********----->", dropResult);
   if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-    const newScene = Object.assign({}, scene.value);
-    const column = newScene.columns.find(
+    const column = scene.value.columns.find(
       (column: ITaskColumn) => column.id === columnId
     );
 
-    console.log("********----->", column);
-
     if (column) {
-      const columnIndex = newScene.columns.indexOf(column);
-      const newColumn = Object.assign({}, column);
+      if (dropResult.addedIndex !== null) {
+        column.tasks.splice(dropResult.addedIndex, 0, dropResult.payload);
+      }
 
-      newColumn.tasks = applyDrag(newColumn.tasks, dropResult);
-      newScene.columns.splice(columnIndex, 1, newColumn);
-      scene.value.columns = newScene.columns;
+      if (dropResult.removedIndex !== null) {
+        column.tasks.splice(dropResult.removedIndex, 1);
+      }
+
+      scene.value.columns = scene.value.columns;
+
+      emits("save", scene.value.columns);
     }
   }
 }
 
-function getCardPayload(columnId: any) {
+function getTaskPayload(columnId: any) {
   return (index: number) => {
     const column = scene.value.columns.find(
       (column: ITaskColumn) => column.id === columnId
     );
 
     if (column) {
-      column.tasks[index];
+      return column.tasks[index];
     }
   };
 }
