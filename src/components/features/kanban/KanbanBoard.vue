@@ -167,7 +167,7 @@ import {
   DrawerRoot,
 } from "vaul-vue";
 import { Container, Draggable } from "vue3-smooth-dnd";
-import { applyDrag, generateItems } from "@/shared/utils/array.util";
+import { applyDrag } from "@/shared/utils/array.util";
 import { ref, reactive, onMounted, watch, VNodeRef } from "vue";
 import { Plus, Check } from "lucide-vue-next";
 import {
@@ -379,7 +379,9 @@ onMounted(() => {
 
     .column {
       @apply flex flex-col gap-4 min-w-[350px] p-4 rounded-lg
-        bg-gradient-to-b from-gray-700/20 to-gray-900/20;
+        bg-gradient-to-b from-gray-700/20 to-gray-900/20
+        border border-gray-700/20 hover:border-gray-700/50
+        transition-all duration-200 ease-in-out cursor-pointer;
 
       &.add-new-column {
         @apply border border-transparent hover:border-gray-600/50
