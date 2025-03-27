@@ -4,23 +4,14 @@
     <div class="flex flex-row justify-between items-center">
       <span class="text-gray-500"> {{ folders.length }} Projects </span>
 
-      <Dialog :open="isCreateFolderDialogOpen">
-        <DialogTrigger>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <button
-                  class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md bg-tombik-primary-500 text-gray-800 hover:bg-tombik-primary-400 transition-all duration-300 ease-in-out"
-                  @click="isCreateFolderDialogOpen = true"
-                >
-                  <FolderPlus /> New Project
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Create new project for next tasks</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+      <Dialog>
+        <DialogTrigger as-child>
+          <button
+            class="flex flex-row gap-2 border border-gray-700 p-3 rounded-md bg-tombik-primary-500 text-gray-800 hover:bg-tombik-primary-400 transition-all duration-300 ease-in-out"
+            @click="isCreateFolderDialogOpen = true"
+          >
+            <FolderPlus /> New Project
+          </button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
