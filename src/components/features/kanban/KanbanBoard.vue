@@ -286,6 +286,15 @@ function onTaskClick(task: ITask) {
   setTimeout(() => {
     if (taskTitleInput.value) {
       taskTitleInput.value.focus();
+
+      setTimeout(() => {
+        if (taskTitleInput.value) {
+          // move cursor to end of content editable element
+          // @source https://stackoverflow.com/a/55811159/6940144
+          document.execCommand("selectAll", false, undefined);
+          document.getSelection()?.collapseToEnd();
+        }
+      }, 100);
     }
   }, 100);
 }
