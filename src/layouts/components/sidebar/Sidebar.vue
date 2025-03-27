@@ -4,7 +4,12 @@
       <!-- Top Container -->
       <div class="top-container">
         <div class="logo">
-          <img src="/assets/images/logos/app-icon.png" alt="Logo" height="50" />
+          <img
+            src="/assets/images/logos/app-icon.png"
+            alt="Logo"
+            height="60"
+            width="60"
+          />
         </div>
 
         <ul>
