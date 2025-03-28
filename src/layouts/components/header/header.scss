@@ -12,15 +12,20 @@ header {
             @apply text-base font-light text-gray-500;
         }
 
-        .edit{
-            @apply absolute -top-5 -right-6 text-gray-200 cursor-pointer hover:text-gray-500 *:size-4 border-b hover:border-gray-500 duration-200;  
+        .edit {
+            @apply absolute -top-5 -right-6 text-gray-200 cursor-pointer hover:text-gray-500 *:size-4 border-b hover:border-gray-500 duration-200;
         }
     }
 
     .search {
         input {
-            @apply px-6 py-3 rounded-full bg-gray-500/20 text-white
-                border-none outline-none text-base;
+            @apply px-6 py-3 rounded-full bg-gray-500/20 text-base
+                border-2 border-transparent dark:focus:border-tombik-primary-500/40
+                outline-none ring-0 ring-transparent text-tombik-primary-500;
+
+            &::placeholder {
+                @apply text-tombik-primary-500/50 dark:focus:text-tombik-primary-500/70;
+            }
         }
     }
 }
