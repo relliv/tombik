@@ -42,6 +42,10 @@
     <!-- Search -->
     <div class="search">
       <Input placeholder="Search..." />
+
+      <button>
+        <IconSearch :size="20" />
+      </button>
     </div>
   </header>
 </template>
@@ -63,6 +67,7 @@ import { Pen } from "lucide-vue-next";
 import { Label } from "radix-vue";
 import { onMounted, ref } from "vue";
 import { useAppStore } from "@/shared/stores/app.store";
+import { IconSearch } from "@tabler/icons-vue";
 
 const appStore = useAppStore();
 
