@@ -7,6 +7,7 @@ import {
   IconHourglass,
   IconSettings,
   IconSitemap,
+  IconPlant,
 } from "@tabler/icons-vue";
 
 export const useSidebarStore = defineStore("sidebar", () => {
@@ -23,6 +24,12 @@ export const useSidebarStore = defineStore("sidebar", () => {
       name: "Timer",
       icon: IconHourglass,
       route: "/timer",
+    },
+    {
+      name: "Weekly",
+      icon: IconPlant,
+      route: "/weekly",
+      isDisabled: false,
     },
     {
       name: "Projects",

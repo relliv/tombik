@@ -11,6 +11,7 @@ import SettingsView from "@/views/SettingsView.vue";
 import SplashView from "@/views/SplashView.vue";
 import ProjectsIndexView from "@/views/projects/ProjectsIndexView.vue";
 import ProjectDetails from "@/views/projects/ProjectDetails.vue";
+import WeeklyView from "@/views/weekly/WeeklyView.vue";
 
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
             component: ProjectDetails,
           },
         ],
+      },
+      {
+        path: "/weekly",
+        name: "weekly",
+        component: WeeklyView,
       },
       {
         path: "/settings",
