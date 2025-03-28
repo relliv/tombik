@@ -123,7 +123,9 @@
             data-testid="content"
             class="bg-zinc-100 flex flex-col rounded-t-[10px] w-[50%] h-full left-[50%] mt-24 fixed bottom-0 right-0"
           >
-            <div class="p-4 bg-white rounded-t-[10px] flex-1">
+            <div
+              class="flex-1 flex flex-col gap-2 p-4 bg-white rounded-t-[10px]"
+            >
               <!-- Drawer Title -->
               <div class="mx-2">
                 <DrawerTitle class="mb-4 dark:text-gray-400 text-sm">
@@ -140,6 +142,12 @@
               >
                 {{ selectedTask!.title }}
               </h1>
+
+              <v-md-editor
+                v-model="taskDescriptionModel"
+                height="400px"
+                @blur="onTaskDescriptionBlur"
+              ></v-md-editor>
             </div>
           </DrawerContent>
         </DrawerPortal>
@@ -184,6 +192,7 @@ const scene = ref<{
 
 const selectedTask = ref<ITask | null>(null);
 const taskTitleInput = ref<HTMLInputElement | null>(null);
+const taskDescriptionModel = ref<string>("");
 
 const upperDropPlaceholderOptions = reactive({
   className: "cards-drop-preview",
@@ -270,6 +279,7 @@ function addNewTask(columnId: any) {
 
 function onTaskClick(task: ITask) {
   selectedTask.value = task;
+  taskDescriptionModel.value = selectedTask.value.description ?? "";
 
   isTaskDetailsDrawerOpen.value = true;
 
@@ -308,6 +318,14 @@ const onTaskStatusChange = (event: Event, task: ITask) => {
 const onTaskTitleBlur = () => {
   if (selectedTask.value) {
     selectedTask.value.title = taskTitleInput.value!.innerText;
+
+    emits("save", scene.value.columns);
+  }
+};
+
+const onTaskDescriptionBlur = () => {
+  if (selectedTask.value) {
+    selectedTask.value.description = taskDescriptionModel.value;
 
     emits("save", scene.value.columns);
   }
