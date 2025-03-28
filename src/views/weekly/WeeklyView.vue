@@ -11,12 +11,12 @@
     <div class="years-tabs">
       <Tabs default-value="2025" class="w-full">
         <TabsList
-          class="flex flex-row items-center justify-center w-full gap-4 py-4 bg-gray-700/20 rounded-full"
+          class="flex flex-row items-center justify-center w-full gap-4 py-2 bg-gray-700/20 rounded-full"
         >
           <TabsTrigger
             v-for="year in avilableYears"
             :value="year.toString()"
-            class="px-4 py-3 rounded-full data-[state=active]:bg-tombik-primary-500/50 hover:bg-tombik-primary-500/20 hover:scale-110"
+            class="px-4 py-3 rounded-full data-[state=active]:bg-tombik-primary-500 data-[state=active]:dark:text-gray-800 hover:bg-tombik-primary-500/20 hover:scale-110 font-normal"
           >
             {{ year }}
           </TabsTrigger>
@@ -67,7 +67,7 @@ onMounted(async () => {
   @apply flex flex-col w-full h-full gap-4;
 
   .hero {
-    @apply flex flex-col items-center justify-between;
+    @apply flex flex-col items-center justify-between my-5;
 
     .week-number {
       @apply flex flex-row items-center justify-between text-4xl;
@@ -77,7 +77,7 @@ onMounted(async () => {
       }
 
       .value {
-        @apply text-8xl font-bold text-tombik-primary-500;
+        @apply text-8xl text-tombik-primary-500;
       }
     }
   }
