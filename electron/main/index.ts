@@ -19,6 +19,8 @@ import os from "node:os";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 
+// #region Electron Setup
+
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -183,50 +185,30 @@ function setupWindowControls() {
   // win.webContents.on('will-navigate', (event, url) => { }) #344
 }
 
-ipcMain.handle("get-workspace-folders", async () => {
-  const workspaceDirectory = getSavedWorkspaceDirectory();
-  if (workspaceDirectory) {
-    return getFoldersInWorkspace(workspaceDirectory);
+// #endregion
+
+// #region App APIs
+
+// New window example arg: new windows url
+ipcMain.handle("open-win", (_, arg) => {
+  const childWindow = new BrowserWindow({
+    webPreferences: {
+      preload,
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+
+  if (VITE_DEV_SERVER_URL) {
+    childWindow.loadURL(`${VITE_DEV_SERVER_URL}#${arg}`);
+  } else {
+    childWindow.loadFile(indexHtml, { hash: arg });
   }
-  return [];
 });
 
-ipcMain.handle("create-new-project", async (_, projectName) => {
-  return createNewProjectFolder(projectName);
-});
+// #endregion
 
-ipcMain.handle("get-project-board-data", async (_, projectPath: string) => {
-  const boardPath = path.join(projectPath, "tasks.json");
-
-  if (!fs.existsSync(boardPath)) {
-    const emptyProject = PROJECT_BOARD_COLUMNS.map((columnName: string) => {
-      return new TaskColumn({
-        title: columnName,
-      });
-    });
-
-    fs.writeFileSync
-      ? fs.writeFileSync(boardPath, JSON.stringify(emptyProject, null, 2))
-      : null;
-
-    return emptyProject;
-  }
-
-  const boardData = await fs.promises.readFile(boardPath, "utf-8");
-
-  return JSON.parse(boardData);
-});
-
-ipcMain.handle(
-  "save-project-board-data",
-  async (_, projectPath: string, columns: string) => {
-    const boardPath = path.join(projectPath, "tasks.json");
-
-    fs.writeFileSync ? fs.writeFileSync(boardPath, columns) : null;
-
-    return true;
-  }
-);
+// #region App Events
 
 app.whenReady().then(async () => {
   let workspaceDirectory = getSavedWorkspaceDirectory();
@@ -264,21 +246,53 @@ app.on("activate", () => {
   }
 });
 
-// New window example arg: new windows url
-ipcMain.handle("open-win", (_, arg) => {
-  const childWindow = new BrowserWindow({
-    webPreferences: {
-      preload,
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  });
+// #endregion
 
-  if (VITE_DEV_SERVER_URL) {
-    childWindow.loadURL(`${VITE_DEV_SERVER_URL}#${arg}`);
-  } else {
-    childWindow.loadFile(indexHtml, { hash: arg });
+// #region App Specific APIs
+
+ipcMain.handle(
+  "save-project-board-data",
+  async (_, projectPath: string, columns: string) => {
+    const boardPath = path.join(projectPath, "tasks.json");
+
+    fs.writeFileSync ? fs.writeFileSync(boardPath, columns) : null;
+
+    return true;
   }
+);
+
+ipcMain.handle("get-workspace-folders", async () => {
+  const workspaceDirectory = getSavedWorkspaceDirectory();
+  if (workspaceDirectory) {
+    return getFoldersInWorkspace(workspaceDirectory);
+  }
+  return [];
+});
+
+ipcMain.handle("create-new-project", async (_, projectName) => {
+  return createNewProjectFolder(projectName);
+});
+
+ipcMain.handle("get-project-board-data", async (_, projectPath: string) => {
+  const boardPath = path.join(projectPath, "tasks.json");
+
+  if (!fs.existsSync(boardPath)) {
+    const emptyProject = PROJECT_BOARD_COLUMNS.map((columnName: string) => {
+      return new TaskColumn({
+        title: columnName,
+      });
+    });
+
+    fs.writeFileSync
+      ? fs.writeFileSync(boardPath, JSON.stringify(emptyProject, null, 2))
+      : null;
+
+    return emptyProject;
+  }
+
+  const boardData = await fs.promises.readFile(boardPath, "utf-8");
+
+  return JSON.parse(boardData);
 });
 
 ipcMain.on("show-notification", (event, { title, message }) => {
@@ -286,3 +300,5 @@ ipcMain.on("show-notification", (event, { title, message }) => {
 
   notification.show();
 });
+
+// #endregion
