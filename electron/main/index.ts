@@ -17,7 +17,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
 import fs from "fs";
-import { v4 as uuidv4 } from "uuid";
+import { DateTime } from "luxon";
 
 // #region Electron Setup
 
@@ -299,6 +299,51 @@ ipcMain.on("show-notification", (event, { title, message }) => {
   const notification = new Notification({ title, body: message });
 
   notification.show();
+});
+
+ipcMain.handle("get-weekly-year-folders", async () => {
+  const workspaceDirectory = getSavedWorkspaceDirectory();
+  const basePath = path.join(workspaceDirectory, "weekly");
+
+  if (basePath) {
+    if (!fs.existsSync(basePath)) {
+      fs.mkdirSync(basePath, { recursive: true });
+    }
+
+    const weeklyYearFolders = getFoldersInWorkspace(basePath);
+
+    // create current year folder if it doesn't exist and create week folders
+    if (!weeklyYearFolders.length) {
+      const currentYear = new Date().getFullYear();
+
+      if (!fs.existsSync(path.join(basePath, currentYear.toString()))) {
+        fs.mkdirSync(path.join(basePath, currentYear.toString()));
+      }
+
+      Array.from({ length: 52 }, (_, i) => i + 1).map((week) => {
+        const folderPath = path.join(
+          basePath,
+          currentYear.toString(),
+          week.toString()
+        );
+
+        if (!fs.existsSync(folderPath)) {
+          fs.mkdirSync(folderPath);
+        }
+
+        return {
+          fullPath: folderPath,
+          name: week.toString(),
+        } as IBasicFolder;
+      });
+
+      return getFoldersInWorkspace(basePath);
+    }
+
+    return weeklyYearFolders;
+  }
+
+  return [];
 });
 
 // #endregion

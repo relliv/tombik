@@ -40,6 +40,7 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
     ipcRenderer.invoke("get-project-board-data", projectPath),
   saveProjectBoardData: (projectPath: string, data: string) =>
     ipcRenderer.invoke("save-project-board-data", projectPath, data),
+  getWeeklyYearFolders: () => ipcRenderer.invoke("get-weekly-year-folders"),
 });
 
 // --------- Preload scripts loading ---------
