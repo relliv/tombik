@@ -8,22 +8,24 @@
       </div>
     </div>
 
+    <!-- Content -->
     <div class="years-tabs">
       <Tabs default-value="2025" class="w-full">
+        <!-- Year Tabs -->
         <TabsList
           class="flex flex-row items-center justify-center w-full gap-4 py-2 bg-gray-700/20 rounded-full"
         >
           <TabsTrigger
-            v-for="year in avilableYears"
-            :value="year.toString()"
+            v-for="yearFolder in avilableYearFolders"
+            :value="yearFolder.name"
             class="px-4 py-3 rounded-full data-[state=active]:bg-tombik-primary-500 data-[state=active]:dark:text-gray-800 hover:bg-tombik-primary-500/20 hover:scale-110 font-normal"
           >
-            {{ year }}
+            {{ yearFolder.name }}
           </TabsTrigger>
         </TabsList>
 
         <TabsContent
-          v-for="year in avilableYears"
+          v-for="year in avilableYearFolders"
           :value="year.toString()"
           class="mt-6"
         >
@@ -38,12 +40,13 @@
 import { onMounted, computed, ref } from "vue";
 import { useAppStore } from "@/shared/stores/app.store";
 import { DateTime } from "luxon";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import WeeklyService from "@/shared/services/weekly.service.ts";
+import { IBasicFolder } from "@/shared/models/file/folder.model.ts";
 
 const appStore = useAppStore();
 
-const avilableYears = ref<number[]>([]);
+const avilableYearFolders = ref<IBasicFolder[]>([]);
 
 // Calculate current week number using Luxon
 const currentWeek = computed(() => {
@@ -52,13 +55,20 @@ const currentWeek = computed(() => {
 
 const initMockData = () => {
   // TODO: fetch year folder names from the workspace root folder
-  avilableYears.value = [2025, 2024, 2023, 2022, 2021].sort((a, b) => a - b);
+  // avilableYearFolders.value = [2025, 2024, 2023, 2022, 2021].sort((a, b) => a - b);
+};
+
+const loadAvaiableYears = async () => {
+  const years = await WeeklyService.loadWeeklyYearFolders();
+
+  avilableYearFolders.value = years.sort((a, b) => a - b);
 };
 
 onMounted(async () => {
   appStore.setPageTitle("Weekly", "Track your weekly to-do lists");
 
   initMockData();
+  loadAvaiableYears();
 });
 </script>
 
