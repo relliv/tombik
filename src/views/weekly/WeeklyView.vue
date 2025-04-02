@@ -24,13 +24,22 @@
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent
-          v-for="year in avilableYearFolders"
-          :value="year.toString()"
-          class="mt-6"
+        <div
+          class="flex flex-col gap-4 w-full h-full"
+          v-if="weeklyWeeks.length"
         >
-          Make changes to your account here. {{ year }}
-        </TabsContent>
+          <!-- Weekly Container -->
+          <div class="flex flex-col gap-4">
+            <template v-for="week in weeklyWeeks">
+              <!-- Week Number -->
+              <div class="flex-col">
+                <h1 class="text-4xl font-bold text-tombik-primary-500">
+                  {{ week.weekNumber }}
+                </h1>
+              </div>
+            </template>
+          </div>
+        </div>
       </Tabs>
     </div>
   </div>
@@ -43,10 +52,13 @@ import { DateTime } from "luxon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import WeeklyService from "@/shared/services/weekly.service.ts";
 import { IBasicFolder } from "@/shared/models/file/folder.model.ts";
+import { IWeeklyWeek } from "@/shared/models/weekly/weekly.model.ts";
 
 const appStore = useAppStore();
 
 const avilableYearFolders = ref<IBasicFolder[]>([]);
+const selectedYear = ref<number>(2025);
+const weeklyWeeks = ref<IWeeklyWeek[]>([]);
 
 // Calculate current week number using Luxon
 const currentWeek = computed(() => {
@@ -62,6 +74,27 @@ const loadAvaiableYears = async () => {
   const years = await WeeklyService.loadWeeklyYearFolders();
 
   avilableYearFolders.value = years.sort((a, b) => a - b);
+
+  if (avilableYearFolders.value.length > 0) {
+    selectedYear.value = avilableYearFolders.value[0].name;
+
+    loadWeeks(selectedYear.value);
+  }
+};
+
+const loadWeeks = async (year: number | string) => {
+  const weekFolders = await WeeklyService.loadWeeklyYearFolder(year);
+
+  if (weekFolders.length) {
+    weeklyWeeks.value = weekFolders
+      .sort((a, b) => a.name - b.name)
+      .map((week) => {
+        return {
+          weekNumber: week.name,
+          tasks: [],
+        };
+      });
+  }
 };
 
 onMounted(async () => {
@@ -93,7 +126,7 @@ onMounted(async () => {
   }
 
   .years-tabs {
-    @apply flex flex-row items-center justify-between w-full gap-2;
+    @apply flex flex-col items-center justify-between w-full gap-2;
   }
 }
 </style>
