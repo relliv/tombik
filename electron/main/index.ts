@@ -346,4 +346,12 @@ ipcMain.handle("get-weekly-year-folders", async () => {
   return [];
 });
 
+ipcMain.handle("get-weekly-year-folder", async (_, year) => {
+  const workspaceDirectory = getSavedWorkspaceDirectory();
+  const basePath = path.join(workspaceDirectory, "weekly", year);
+  const weekFolders = getFoldersInWorkspace(basePath);
+
+  return weekFolders;
+});
+
 // #endregion

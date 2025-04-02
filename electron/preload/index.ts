@@ -1,5 +1,6 @@
 import { ipcRenderer, contextBridge } from "electron";
 import { ITaskColumn } from "../../src/shared/models/project/task.model";
+import { get } from "node:http";
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld("ipcRenderer", {
@@ -41,6 +42,8 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   saveProjectBoardData: (projectPath: string, data: string) =>
     ipcRenderer.invoke("save-project-board-data", projectPath, data),
   getWeeklyYearFolders: () => ipcRenderer.invoke("get-weekly-year-folders"),
+  getWeeklyYearFolder: (year: string) =>
+    ipcRenderer.invoke("get-weekly-year-folder", year),
 });
 
 // --------- Preload scripts loading ---------
